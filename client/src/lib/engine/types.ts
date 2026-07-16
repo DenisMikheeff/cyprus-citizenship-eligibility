@@ -76,6 +76,11 @@ export interface CumulativeResult {
   windowEnd: ISODate;
   met: boolean;
   shortfallDays: number;
+  /** Calendar date the cumulative day requirement was first satisfied,
+   * scanning forward from the count-start date. Null if not yet reached
+   * or if it falls outside a ~20-year forward scan horizon. Distinct from
+   * AnniversaryYearResult.anniversaryStart — see cumulative.ts docs. */
+  thresholdReachedDate: ISODate | null;
 }
 
 export interface EligibilityResult {

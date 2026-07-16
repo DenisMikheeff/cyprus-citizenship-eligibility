@@ -32,16 +32,21 @@ export function StepTrips() {
     }
   }, [engineInput]);
 
-  const anniversaryStart = result?.anniversary?.anniversaryStart;
+  // The "trips after threshold" table tracks travel AFTER the cumulative
+  // day requirement (e.g. 1,096/1,461/2,556 days) was first satisfied —
+  // this is thresholdReachedDate, NOT the anniversary-year window start
+  // (which is a different, later-computed date for the final continuous
+  // residence check). See cumulative.ts docs.
+  const thresholdReachedDate = result?.cumulative?.thresholdReachedDate ?? undefined;
 
   const trips: TripRow[] = useMemo(() => {
-    if (!anniversaryStart) return [];
+    if (!thresholdReachedDate) return [];
     const sorted = [...state.events].sort((a, b) => a.date.localeCompare(b.date));
     const rows: TripRow[] = [];
     for (let i = 0; i < sorted.length; i++) {
       const ev = sorted[i];
       if (ev.type !== "departure") continue;
-      if (ev.date < anniversaryStart) continue;
+      if (ev.date < thresholdReachedDate) continue;
       const next = sorted[i + 1];
       const arrival = next && next.type === "arrival" ? next : null;
       const days = arrival
@@ -57,11 +62,11 @@ export function StepTrips() {
       if (arrival) i++;
     }
     return rows;
-  }, [state.events, anniversaryStart, destinations]);
+  }, [state.events, thresholdReachedDate, destinations]);
 
   return (
     <SectionCard title={t("trips.title")} description={t("trips.description")}>
-      {!anniversaryStart ? (
+      {!thresholdReachedDate ? (
         <p className="text-sm text-muted-foreground" data-testid="text-trips-no-anniversary">
           {t("trips.noThresholdYet")}
         </p>
@@ -71,7 +76,7 @@ export function StepTrips() {
             <AlertCircle className="h-4 w-4 text-teal-800 mt-0.5 shrink-0" />
             <p className="text-xs text-teal-900" data-testid="text-threshold-reached-on">
               {t("trips.thresholdReachedOn", {
-                date: formatISODisplay(anniversaryStart, i18n.language),
+                date: formatISODisplay(thresholdReachedDate, i18n.language),
               })}
             </p>
           </div>

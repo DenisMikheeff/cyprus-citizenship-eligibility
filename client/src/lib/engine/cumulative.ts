@@ -12,11 +12,12 @@
 // application date).
 
 import { addDays, subYears, differenceInCalendarDays, getYear, isAfter, isBefore } from "date-fns";
-import type { BcsYearSetting, CumulativeResult, Route } from "./types";
+import type { BcsYearSetting, CumulativeResult, ISODate, Route } from "./types";
 import { toDate, toISO, isPresentOn, type DateInterval } from "./presence";
 
 const BCS_CONCESSION_CAP_DAYS = 90;
 const ROLLING_WINDOW_YEARS = 10;
+const MAX_FORWARD_SCAN_DAYS = 20 * 365; // safety cap (~20 years)
 
 /** Exact calendar length of `years` years ending at windowEnd (leap-year accurate). */
 export function requiredCumulativeDays(years: number, windowEndISO: string): number {
@@ -82,6 +83,14 @@ export function computeCumulativePresence(
   const actualDays = presentDays + forgivenDays;
   const requiredDays = requiredCumulativeDays(requiredYears, windowEndISO);
 
+  const thresholdReachedDate = findCumulativeThresholdDate(
+    requiredDays,
+    absenceIntervals,
+    effectiveStart,
+    bcsYearSettings,
+    route
+  );
+
   return {
     requiredDays,
     actualDays,
@@ -89,5 +98,82 @@ export function computeCumulativePresence(
     windowEnd: windowEndISO,
     met: actualDays >= requiredDays,
     shortfallDays: Math.max(0, requiredDays - actualDays),
+    thresholdReachedDate,
   };
+}
+
+/**
+ * Finds the exact calendar date on which the cumulative day requirement
+ * (`requiredYears`-years-worth of days) is first satisfied, scanning forward
+ * day-by-day from `countStartDate`. This mirrors the "Trips after N-year
+ * threshold reached" table in the original spreadsheet/PDF (ENGINE_SPEC.md
+ * S2) and the ground-truth day-by-day verification script (verify3.py) --
+ * it is a DIFFERENT date from the anniversary-year window start
+ * (AnniversaryYearResult.anniversaryStart), which is computed by scanning
+ * BACKWARD from the application date for the final 1-year continuous
+ * residence requirement (S3). Do not conflate the two.
+ *
+ * BCS concession handling (fast-track only, years flagged
+ * heldBcsStatus + concessionOn): if a calendar year's TOTAL absence days
+ * are <= 90, every day in that year counts toward the cumulative total
+ * (forgiven). If a concession year's total absence exceeds 90, only the
+ * first min(absentCount, 90) absence days encountered while scanning
+ * forward are forgiven (an explicit, documented tie-breaking choice for
+ * this edge case -- the underlying law only specifies the 90-day cap, not
+ * which specific days are forgiven when the cap binds).
+ *
+ * Returns null if the requirement is never reached within a ~20-year
+ * forward scan (should not happen for any realistic input).
+ */
+export function findCumulativeThresholdDate(
+  requiredDays: number,
+  absenceIntervals: DateInterval[],
+  countStartDate: Date,
+  bcsYearSettings: BcsYearSetting[],
+  route: Route
+): ISODate | null {
+  const concessionByYear = new Map<number, boolean>();
+  if (route === "fast-track") {
+    for (const setting of bcsYearSettings) {
+      concessionByYear.set(setting.year, setting.heldBcsStatus && setting.concessionOn);
+    }
+  }
+
+  const horizon = addDays(countStartDate, MAX_FORWARD_SCAN_DAYS);
+  const totalAbsentByYear = new Map<number, number>();
+  {
+    let cursor = countStartDate;
+    while (!isAfter(cursor, horizon)) {
+      if (!isPresentOn(cursor, absenceIntervals)) {
+        const y = getYear(cursor);
+        totalAbsentByYear.set(y, (totalAbsentByYear.get(y) ?? 0) + 1);
+      }
+      cursor = addDays(cursor, 1);
+    }
+  }
+
+  const forgivenUsedByYear = new Map<number, number>();
+  let counted = 0;
+  let cursor = countStartDate;
+  while (!isAfter(cursor, horizon)) {
+    const present = isPresentOn(cursor, absenceIntervals);
+    if (present) {
+      counted++;
+    } else {
+      const y = getYear(cursor);
+      const yearHasConcession = concessionByYear.get(y) === true;
+      const yearCap = Math.min(totalAbsentByYear.get(y) ?? 0, BCS_CONCESSION_CAP_DAYS);
+      const usedSoFar = forgivenUsedByYear.get(y) ?? 0;
+      if (yearHasConcession && usedSoFar < yearCap) {
+        forgivenUsedByYear.set(y, usedSoFar + 1);
+        counted++;
+      }
+    }
+    if (counted >= requiredDays) {
+      return toISO(cursor);
+    }
+    cursor = addDays(cursor, 1);
+  }
+
+  return null;
 }
