@@ -38,9 +38,23 @@ export function getRouteRequirement(
   };
 }
 
-/** Total "years" figure shown to users, e.g. "4 years total (3 + 1)". */
-export function getRouteTotalYearsLabel(route: Route, greekLevel?: GreekLevel): string {
+/**
+ * Structured "total years" breakdown for a route, for the UI to translate and
+ * format itself (do NOT bake an English string here — see StepRoute.tsx).
+ */
+export type RouteYearsBreakdown =
+  | { kind: "cumulative-plus-anniversary"; cumulativeYears: number; totalYears: number }
+  | { kind: "marriage"; marriageYears: number; residenceYears: number };
+
+export function getRouteYearsBreakdown(route: Route, greekLevel?: GreekLevel): RouteYearsBreakdown {
   const req = getRouteRequirement(route, greekLevel);
-  if (route === "marriage") return "3 years married + 2 years cumulative residence";
-  return `${(req.cumulativeYears ?? 0) + 1} years total (${req.cumulativeYears} + 1)`;
+  if (route === "marriage") {
+    return {
+      kind: "marriage",
+      marriageYears: req.marriageYearsRequired ?? 3,
+      residenceYears: req.marriageCumulativeResidenceYears ?? 2,
+    };
+  }
+  const cumulativeYears = req.cumulativeYears ?? 0;
+  return { kind: "cumulative-plus-anniversary", cumulativeYears, totalYears: cumulativeYears + 1 };
 }

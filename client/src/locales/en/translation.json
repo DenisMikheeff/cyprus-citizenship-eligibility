@@ -37,17 +37,22 @@
     "greekA2": "A2 (fast-track only — raises cumulative requirement to 4 years)",
     "greekExempt": "Exempt (May 2024: Greek-taught school-leaving certificate or degree)",
     "totalYears": "Total years required: {{label}}",
-    "marriageNotice": "Final-period rules for the marriage route are not confirmed by research. This app calculates only the flat 3-years-married + 2-years-residence rule. Verify all other aspects with counsel."
+    "marriageNotice": "Final-period rules for the marriage route are not confirmed by research. This app calculates only the flat 3-years-married + 2-years-residence rule. Verify all other aspects with counsel.",
+    "fastTrackShort": "Fast-track (BCS / highly-skilled)",
+    "standardShort": "Standard",
+    "marriageShort": "Marriage",
+    "totalYearsBreakdown_one": "{{count}} year total ({{cumulative}} + 1)",
+    "totalYearsBreakdown_other": "{{count}} years total ({{cumulative}} + 1)"
   },
   "personal": {
     "title": "Personal details",
     "description": "These details drive your calculation and appear on the exported record.",
     "fullName": "Full name",
-    "fullNamePlaceholder": "e.g. Denis Mikheev",
+    "fullNamePlaceholder": "e.g. John Smith",
     "passportNumber": "Passport number",
-    "passportNumberPlaceholder": "e.g. 76 5646348",
+    "passportNumberPlaceholder": "e.g. 12 3456789",
     "arcNumber": "ARC number",
-    "arcNumberPlaceholder": "e.g. 0581877946",
+    "arcNumberPlaceholder": "e.g. 0123456789",
     "applicationDate": "Intended application date",
     "applicationDateDescription": "The date you plan to submit your application. All calculations run backward from this date. This date itself is never counted as a day of presence."
   },
@@ -290,7 +295,24 @@
       "presentDays": "Present days",
       "notes": "Notes",
       "total": "Total",
-      "referenceHeading": "Eligibility summary"
+      "referenceHeading": "Eligibility summary",
+      "departureEvent": "Departure from Cyprus",
+      "arrivalEvent": "Arrival in Cyprus",
+      "arcObtainedOnly": "ARC obtained",
+      "arcObtainedWithReceipt": "ARC obtained, first receipt issued",
+      "arcObtainedWithBcsReceipt": "ARC obtained, first BCS receipt issued",
+      "applicationDateEvent": "Application date ({{form}} submission)",
+      "thresholdReachedEvent": "{{years}}-year ({{days}}-day) physical presence threshold reached",
+      "referenceDatesHeading": "Reference dates (for information only, do not affect the calculation)",
+      "referenceDatesNote": "These dates concern the applicant's residence-permit administrative history and are provided for the officer's convenience only; the calculation of days is based exclusively on the applicant's physical presence in Cyprus as evidenced by passport stamps.",
+      "firstReceiptRowLabel": "First receipt issued",
+      "firstBcsReceiptRowLabel": "First BCS receipt issued",
+      "residencePermitRowLabel": "{{type}} Residence Permit printed",
+      "resultLabel": "Result",
+      "thresholdReachedLabel": "Cumulative threshold reached",
+      "marginLabel": "Margin (days)",
+      "formM127": "Form M.127",
+      "formM125": "Form M.125"
     }
   },
   "common": {

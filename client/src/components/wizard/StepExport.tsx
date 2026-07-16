@@ -47,11 +47,13 @@ export function StepExport() {
   const generatePdf = async (lang: "en" | "gr") => {
     registerPdfFonts();
     const localeCode = lang === "en" ? "en-GB" : "el-GR";
-    const labels = buildPdfLabels(lang, (key: string) => {
+    const labels = buildPdfLabels(lang, (key: string, opts?: Record<string, unknown>) => {
       // Use the current i18n instance but force the target language's
       // resource bundle so EN/GR downloads are independent of the UI language.
+      // IMPORTANT: forward `opts` -- it carries {{variable}} interpolation
+      // values (e.g. years/days/form/type) used by several export.pdf.* keys.
       const targetLang = lang === "en" ? "en" : "el";
-      return i18n.getFixedT(targetLang)(key) as string;
+      return i18n.getFixedT(targetLang)(key, opts) as string;
     });
     const doc = (
       <CitizenshipPdf

@@ -3,7 +3,7 @@ import { useAppState } from "@/lib/state/AppStateContext";
 import { SectionCard } from "@/components/wizard/Field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { getRouteTotalYearsLabel, type GreekLevel, type Route } from "@/lib/engine";
+import { getRouteYearsBreakdown, type GreekLevel, type Route } from "@/lib/engine";
 import { AlertTriangle } from "lucide-react";
 
 export function StepRoute() {
@@ -73,9 +73,16 @@ export function StepRoute() {
           </RadioGroup>
 
           <p className="text-sm font-medium text-teal-800 mt-1" data-testid="text-total-years">
-            {t("route.totalYears", {
-              label: getRouteTotalYearsLabel(state.route, state.greekLevel),
-            })}
+            {(() => {
+              const breakdown = getRouteYearsBreakdown(state.route, state.greekLevel);
+              if (breakdown.kind !== "cumulative-plus-anniversary") return null;
+              return t("route.totalYears", {
+                label: t("route.totalYearsBreakdown", {
+                  count: breakdown.totalYears,
+                  cumulative: breakdown.cumulativeYears,
+                }),
+              });
+            })()}
           </p>
         </div>
       )}

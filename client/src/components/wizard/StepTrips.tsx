@@ -49,8 +49,12 @@ export function StepTrips() {
       if (ev.date < thresholdReachedDate) continue;
       const next = sorted[i + 1];
       const arrival = next && next.type === "arrival" ? next : null;
+      // Per the verified engine convention (presence.ts): the departure day
+      // itself is absent, but the arrival day is present. So the count of
+      // absent days in a trip is simply (arrival date - departure date),
+      // with NO +1 -- adding 1 would double-count the arrival day as absent.
       const days = arrival
-        ? differenceInCalendarDays(parseISO(arrival.date), parseISO(ev.date)) + 1
+        ? differenceInCalendarDays(parseISO(arrival.date), parseISO(ev.date))
         : 0;
       rows.push({
         id: ev.id,

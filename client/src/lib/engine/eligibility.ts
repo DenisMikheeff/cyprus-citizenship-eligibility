@@ -9,7 +9,7 @@ import { findAnniversaryYear } from "./anniversary";
 import { computeCumulativePresence, requiredCumulativeDays } from "./cumulative";
 import { getRouteRequirement } from "./routes";
 
-function getCountStartDate(arcDateISO: string, includeArcDate: boolean): Date {
+export function getCountStartDate(arcDateISO: string, includeArcDate: boolean): Date {
   const arcDate = toDate(arcDateISO);
   return includeArcDate ? arcDate : addDays(arcDate, 1);
 }
