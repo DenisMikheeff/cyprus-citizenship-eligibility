@@ -49,35 +49,28 @@ export function EligibilityHint({ result }: { result: EligibilityResult | null }
 
       {result.anniversary?.found && (
         <p className="text-xs text-muted-foreground" data-testid="text-anniversary-start">
-          {t("eligibility.anniversaryStart", {
-            date: formatISODisplay(result.anniversary.anniversaryStart!, i18n.language),
-          })}
+          {t("eligibility.anniversaryStart")}: {formatISODisplay(result.anniversary.anniversaryStart!, i18n.language)}
         </p>
       )}
 
       {result.cumulative && (
         <p className="text-xs text-muted-foreground" data-testid="text-cumulative-summary">
-          {t("eligibility.cumulativeSummary", {
-            actual: result.cumulative.actualDays,
-            required: result.cumulative.requiredDays,
-            shortfall: result.cumulative.shortfallDays,
-          })}
+          {t("eligibility.cumulativeActual")}: {result.cumulative.actualDays} / {t("eligibility.cumulativeRequired")}: {result.cumulative.requiredDays}
+          {result.cumulative.shortfallDays > 0 && (
+            <> — {t("eligibility.cumulativeShortfall")}: {result.cumulative.shortfallDays}</>
+          )}
         </p>
       )}
 
       {result.marriage && (
         <div className="flex flex-col gap-1 text-xs text-muted-foreground">
           <p data-testid="text-marriage-years">
-            {t("eligibility.marriageYears", {
-              years: result.marriage.yearsMarried.toFixed(2),
-              met: result.marriage.yearsMarriedMet ? t("common.yes") : t("common.no"),
-            })}
+            {t("eligibility.yearsMarried")}: {result.marriage.yearsMarried.toFixed(2)} (
+            {result.marriage.yearsMarriedMet ? t("common.yes") : t("common.no")})
           </p>
           <p data-testid="text-marriage-residence">
-            {t("eligibility.marriageResidence", {
-              actual: result.marriage.cumulativeResidenceDays,
-              required: result.marriage.requiredResidenceDays,
-            })}
+            {t("eligibility.residenceDays")}: {result.marriage.cumulativeResidenceDays} /{" "}
+            {result.marriage.requiredResidenceDays} {t("eligibility.residenceDaysRequired")}
           </p>
         </div>
       )}

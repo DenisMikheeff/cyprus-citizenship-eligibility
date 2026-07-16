@@ -103,7 +103,9 @@
     "bcsYearLabel": "Year {{year}}",
     "heldBcsStatus": "Held BCS status this year",
     "concessionOn": "Apply BCS concession (forgive up to 90 absence days)",
-    "addYear": "Add a BCS year"
+    "addYear": "Add a BCS year",
+    "description": "Fine-tune the counting rules and see how they affect your live eligibility result below.",
+    "populateYears": "Populate years from your data"
   },
   "eligibility": {
     "title": "Live eligibility",
@@ -138,7 +140,8 @@
     "improvementArc": "Turning on “include ARC date” could move your nearest eligible date about {{days}} day(s) earlier.",
     "improvementBcs": "Turning on the BCS concession for {{year}} could move your nearest eligible date about {{days}} day(s) earlier.",
     "applyToggle": "Apply this toggle",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "needMoreData": "Enter your ARC date, application date, and travel log to see a live eligibility estimate here."
   },
   "education": {
     "title": "How the calculation works",

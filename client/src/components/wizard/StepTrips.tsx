@@ -63,7 +63,7 @@ export function StepTrips() {
     <SectionCard title={t("trips.title")} description={t("trips.description")}>
       {!anniversaryStart ? (
         <p className="text-sm text-muted-foreground" data-testid="text-trips-no-anniversary">
-          {t("trips.noAnniversaryYet")}
+          {t("trips.noThresholdYet")}
         </p>
       ) : (
         <>
@@ -78,7 +78,7 @@ export function StepTrips() {
 
           {trips.length === 0 ? (
             <p className="text-sm text-muted-foreground" data-testid="text-no-trips">
-              {t("trips.noTrips")}
+              {t("trips.noThresholdYet")}
             </p>
           ) : (
             <div className="overflow-x-auto">
@@ -87,8 +87,8 @@ export function StepTrips() {
                   <TableRow>
                     <TableHead>{t("trips.departure")}</TableHead>
                     <TableHead>{t("trips.return")}</TableHead>
-                    <TableHead>{t("trips.days")}</TableHead>
-                    <TableHead>{t("trips.destination")}</TableHead>
+                    <TableHead>{t("trips.daysAbsent")}</TableHead>
+                    <TableHead>{t("trips.tripTo")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -102,7 +102,7 @@ export function StepTrips() {
                       <TableCell>
                         <Input
                           value={destinations[trip.id] ?? ""}
-                          placeholder={t("trips.destinationPlaceholder")}
+                          placeholder={t("trips.tripTo")}
                           data-testid={`input-trip-destination-${trip.id}`}
                           onChange={(e) => setDestination(trip.id, e.target.value)}
                         />

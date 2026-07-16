@@ -126,7 +126,7 @@ export function buildPdfLabels(lang: "en" | "gr", t: (k: string) => string): Pdf
     annualTotalLabel: t("export.pdf.total"),
     referenceHeading: t("export.pdf.referenceHeading"),
     tripsHeading: t("trips.title"),
-    tripsCols: [t("trips.departure"), t("trips.return"), t("trips.days"), t("trips.destination")],
+    tripsCols: [t("trips.departure"), t("trips.return"), t("trips.daysAbsent"), t("trips.tripTo")],
     tripsTotalLabel: t("export.pdf.total"),
     footer: t("export.footerLabel"),
     dash: "—",
