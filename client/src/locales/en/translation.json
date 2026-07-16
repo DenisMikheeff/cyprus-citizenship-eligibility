@@ -1,0 +1,316 @@
+{
+  "app": {
+    "title": "Cyprus Citizenship Eligibility",
+    "subtitle": "Estimate your naturalization eligibility and prepare supporting records",
+    "languageLabel": "Interface language",
+    "disclaimer": "This tool provides an informal estimate only. It is not legal advice. Always verify results with a licensed Cyprus immigration lawyer before relying on any date or figure shown here."
+  },
+  "nav": {
+    "back": "Back",
+    "next": "Continue",
+    "step": "Step {{current}} of {{total}}"
+  },
+  "steps": {
+    "route": "Route & language",
+    "personal": "Personal details",
+    "arc": "ARC & receipts",
+    "travel": "Travel log",
+    "trips": "Trips after threshold",
+    "eligibility": "Eligibility",
+    "education": "How this works",
+    "m126": "Minor registration (M126)",
+    "export": "Export"
+  },
+  "route": {
+    "title": "Choose your route and language level",
+    "description": "Your route determines the cumulative-years requirement and which form you'll file.",
+    "routeLabel": "Naturalization route",
+    "fastTrack": "Fast-track (BCS / highly-skilled, Foreign Interest company)",
+    "fastTrackDesc": "Form M127. 3 years (B1 Greek) or 4 years (A2 Greek) within a rolling 10-year window, plus a final 1-year anniversary period.",
+    "standard": "Standard (all other residence categories)",
+    "standardDesc": "Form M127. 7 years within a rolling 10-year window, plus a final 1-year anniversary period. B1 Greek required.",
+    "marriage": "Marriage to a Cypriot citizen",
+    "marriageDesc": "Form M125. 3 years married and 2 years of cumulative residence during the marriage. Final-period rules are unconfirmed — verify with counsel.",
+    "greekLevelLabel": "Greek language level",
+    "greekLevelDescription": "Required for fast-track and standard routes.",
+    "greekB1": "B1 (standard requirement)",
+    "greekA2": "A2 (fast-track only — raises cumulative requirement to 4 years)",
+    "greekExempt": "Exempt (May 2024: Greek-taught school-leaving certificate or degree)",
+    "totalYears": "Total years required: {{label}}",
+    "marriageNotice": "Final-period rules for the marriage route are not confirmed by research. This app calculates only the flat 3-years-married + 2-years-residence rule. Verify all other aspects with counsel."
+  },
+  "personal": {
+    "title": "Personal details",
+    "description": "These details drive your calculation and appear on the exported record.",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "e.g. Denis Mikheev",
+    "passportNumber": "Passport number",
+    "passportNumberPlaceholder": "e.g. 76 5646348",
+    "arcNumber": "ARC number",
+    "arcNumberPlaceholder": "e.g. 0581877946",
+    "applicationDate": "Intended application date",
+    "applicationDateDescription": "The date you plan to submit your application. All calculations run backward from this date. This date itself is never counted as a day of presence."
+  },
+  "arc": {
+    "title": "ARC and receipt dates",
+    "description": "The ARC issuing date controls when your countable presence begins.",
+    "arcDate": "ARC issuing date",
+    "arcDateDescription": "By default, physical presence is counted only from the day AFTER this date (a conservative measure). Use the toggle below to include the ARC day itself.",
+    "includeArcDate": "Include the ARC issuing date itself as a day of presence",
+    "firstReceiptDate": "First-ever receipt issuing date (any type)",
+    "sameAsArc": "Same as ARC issuing date",
+    "firstBcsReceiptDate": "First-ever BCS receipt issuing date",
+    "firstReceiptWasBcs": "First receipt was a BCS receipt",
+    "referenceOnlyNote": "These receipt dates are stored for your reference table only. They do not affect the eligibility calculation."
+  },
+  "travel": {
+    "title": "Travel log",
+    "description": "Log every arrival and departure to and from Cyprus. The departure day itself counts as absent; the arrival day counts as present.",
+    "addEvent": "Add event",
+    "date": "Date",
+    "type": "Type",
+    "departure": "Departure",
+    "arrival": "Arrival",
+    "passportPage": "Passport page (optional)",
+    "passportPagePlaceholder": "e.g. 12",
+    "remove": "Remove",
+    "noEvents": "No travel events logged yet.",
+    "presetTitle": "Reference-only dates",
+    "presetDescription": "These optional dates are shown for your own reference in the exported record. They are never used in the eligibility calculation.",
+    "addResidencePermitDate": "Add “Residence permit printed” reference date",
+    "rpType": "Residence permit type",
+    "rpTypePlaceholder": "e.g. VIS, BCS",
+    "rpDate": "Printing date",
+    "orderWarning": "Events must alternate departure / arrival in date order for the calculation to be accurate.",
+    "importedFromEngine": "Used directly in the eligibility calculation."
+  },
+  "trips": {
+    "title": "Trips after the cumulative threshold",
+    "description": "Once your cumulative years requirement is met, every trip taken afterward is shown here automatically — it mirrors the “Trips after threshold” table in the exported record.",
+    "noThresholdYet": "The cumulative threshold has not been reached yet with your current data, so there is nothing to show here.",
+    "departure": "Departure",
+    "return": "Return",
+    "daysAbsent": "Days absent",
+    "tripTo": "Trip to (optional note)",
+    "total": "Total",
+    "thresholdReachedOn": "Cumulative threshold reached on {{date}}"
+  },
+  "toggles": {
+    "title": "Toggles",
+    "arcToggleLabel": "Include ARC issuing date as a day of presence",
+    "bcsTitle": "BCS concession by year",
+    "bcsDescription": "Only years marked as “held BCS status” can receive the concession (fast-track route only). When ON, up to 90 absence days in that calendar year are forgiven for the cumulative tally.",
+    "bcsYearLabel": "Year {{year}}",
+    "heldBcsStatus": "Held BCS status this year",
+    "concessionOn": "Apply BCS concession (forgive up to 90 absence days)",
+    "addYear": "Add a BCS year"
+  },
+  "eligibility": {
+    "title": "Live eligibility",
+    "eligible": "Eligible on your chosen application date",
+    "notEligible": "Not yet eligible on your chosen application date",
+    "anniversaryFound": "Anniversary year found",
+    "anniversaryNotFound": "No valid anniversary year",
+    "anniversaryStart": "Anniversary year starts",
+    "windowEnd": "Window ends",
+    "presentDays": "Present days in window",
+    "absentDays": "Absent days in window",
+    "toleranceExceeded": "Absences in the trailing 12-month window exceeded the 90-day tolerance.",
+    "insufficientHistory": "Not enough presence history yet to complete a 365-day anniversary window.",
+    "cumulativeTitle": "Cumulative window (rolling 10 years)",
+    "cumulativeRequired": "Required days",
+    "cumulativeActual": "Actual days (incl. any BCS forgiveness)",
+    "cumulativeShortfall": "Shortfall",
+    "cumulativeMet": "Cumulative requirement met",
+    "cumulativeNotMet": "Cumulative requirement not met",
+    "marriageTitle": "Marriage route summary",
+    "yearsMarried": "Years married",
+    "yearsMarriedRequired": "years required",
+    "residenceDays": "Cumulative residence days during marriage",
+    "residenceDaysRequired": "days required",
+    "marriageUnconfirmedNotice": "Final-period rules for the marriage route are unconfirmed by research. Only the flat 3-years-married + 2-years-residence figures above are calculated. Verify all other aspects of this route with a Cyprus immigration lawyer before applying.",
+    "nearestEligibleTitle": "Nearest eligible date",
+    "nearestEligibleFound": "You could be eligible as early as {{date}}.",
+    "nearestEligibleNotFound": "No eligible date was found within the next 5 years with your current data. Please double check your travel log and ARC date.",
+    "adoptDate": "Use this date instead",
+    "searching": "Searching…",
+    "improvementTitle": "You might be able to improve your eligibility date",
+    "improvementArc": "Turning on “include ARC date” could move your nearest eligible date about {{days}} day(s) earlier.",
+    "improvementBcs": "Turning on the BCS concession for {{year}} could move your nearest eligible date about {{days}} day(s) earlier.",
+    "applyToggle": "Apply this toggle",
+    "dismiss": "Dismiss"
+  },
+  "education": {
+    "title": "How the calculation works",
+    "description": "A plain-language walkthrough of the mechanics behind your result, with the exact rules from the underlying legal research.",
+    "anniversaryHeading": "1. The “anniversary year” rolling-backward scan",
+    "anniversaryBody": "Starting from the day before your intended application date, the calculator scans backward day by day, counting every day you were physically present in Cyprus. It keeps a running tally of present days and absent days. The scan stops the moment present days reach 365. If, at that point, the total absent days encountered during the scan are 90 or fewer, a valid “anniversary year” has been found — its length is simply 365 plus however many absence days it had to stretch to absorb. If absences exceed 90 before 365 present days are reached, no anniversary year exists for that date, and the application date must move later until a fresh scan succeeds.",
+    "anniversaryExampleHeading": "Worked example",
+    "anniversaryExample": "Suppose you left Cyprus for a single 30-day trip during the year before your application date, and were present every other day. The scan needs 365 present days, and it also absorbs the 30 absence days it encounters along the way — so the resulting anniversary window is 395 days long (365 + 30), not a strict calendar year. Since 30 is well under the 90-day tolerance, this is still a valid anniversary year.",
+    "cumulativeHeading": "2. The cumulative 10-year-window requirement",
+    "cumulativeBody": "Separately from the anniversary year, your route requires a total number of cumulative years of physical presence (3, 4, or 7, depending on route and Greek level) accumulated anywhere within a rolling 10-year window that ends the day before your anniversary year begins.",
+    "cumulativeInterpretationHeading": "Resolved interpretation",
+    "cumulativeInterpretationBody": "This is implemented as a running total: all present days anywhere inside the 10-year window are added up (with BCS forgiveness applied where relevant) and compared against the required day count. It is not a requirement that your presence fill one fixed, uninterrupted sub-window immediately before the window ends — gaps and re-entries are fine as long as the total adds up. This is the standard reading used by every researched legal source and is flagged here as the resolved interpretation, since the alternative (a fixed, unbroken sub-window) was tested first and contradicted a verified real-world case.",
+    "routeHeading": "3. Route differences",
+    "routeTableHeader": [
+      "Route",
+      "Form",
+      "Language gate",
+      "Cumulative requirement",
+      "Final period",
+      "Absence tolerance"
+    ],
+    "routeFastTrackB1": [
+      "Fast-track (B1)",
+      "M127",
+      "B1 Greek (or exemption)",
+      "3 years in rolling 10-year window",
+      "1 year (365 present days)",
+      "90 days"
+    ],
+    "routeFastTrackA2": [
+      "Fast-track (A2)",
+      "M127",
+      "A2 Greek",
+      "4 years in rolling 10-year window",
+      "1 year (365 present days)",
+      "90 days"
+    ],
+    "routeStandard": [
+      "Standard",
+      "M127",
+      "B1 Greek",
+      "7 years in rolling 10-year window",
+      "1 year (365 present days)",
+      "90 days (Dec 2023 amendment)"
+    ],
+    "routeMarriage": [
+      "Marriage",
+      "M125",
+      "None confirmed",
+      "2 years cumulative residence",
+      "Not modeled — unconfirmed",
+      "N/A"
+    ],
+    "togglesHeading": "4-5. BCS concession vs. ARC-date toggle",
+    "togglesBody": "These are two independent mechanisms. The BCS concession (route: fast-track only) forgives up to 90 absence days per calendar year, but only for years you mark as held under BCS-type residence status, and only for the cumulative-years tally. The ARC-date-inclusion toggle is unrelated: it simply decides whether the ARC issuing date itself counts as your first day of presence, or whether counting starts the day after. Both toggles can be turned on independently, and the app will tell you if either would move your nearest eligible date earlier.",
+    "amendmentHeading": "9. The December 2023 90-day-tolerance amendment",
+    "amendmentBody": "An earlier belief held that applicants on the standard (non-fast-track) route needed to be physically present in Cyprus for a full 12 months before applying without leaving even for a single day. Confirmed research (KPMG, Deloitte) shows this was superseded by a December 2023 legislative amendment introducing the same 90-day absence tolerance already used on the fast-track routes. This calculator applies the 90-day tolerance uniformly across fast-track and standard routes for the final anniversary year.",
+    "sourcesHeading": "Sources",
+    "sources": [
+      {
+        "label": "European Commission — Cyprus citizenship legislation update (2024)",
+        "url": "https://home-affairs.ec.europa.eu/news/cyprus-new-citizenship-legislation-2024-03-06_en"
+      },
+      {
+        "label": "KPMG Cyprus — Revised rules for citizenship based on years of residence",
+        "url": "https://kpmg.com/cy/en/insights/tax-alerts/revised-rules-for-cyprus-citizenship-based-on-years-of-residence.html"
+      },
+      {
+        "label": "GK Law Firm — Cyprus citizenship new law",
+        "url": "https://gk-lawfirm.com/publications/cyprus-citizenship-new-law/"
+      },
+      {
+        "label": "Deloitte Cyprus — Comprehensive update on citizenship requirements",
+        "url": "https://www.deloitte.com/cy/en/services/tax/blogs/comprehensive-update-on-citizenship-requirements-in-cyprus.html"
+      },
+      {
+        "label": "Zeno Legal — Cyprus citizenship by naturalisation 2026",
+        "url": "https://www.zenolegal.com/resources/cyprus-citizenship-by-naturalisation-2026"
+      },
+      {
+        "label": "Koufettas Law — Cyprus citizenship and naturalisation",
+        "url": "https://koufettaslaw.com/cyprus-citizenship-and-naturalisation/"
+      },
+      {
+        "label": "IMIN Cyprus — Guide to Cyprus citizenship options",
+        "url": "https://imin-cyprus.com/guide/cyprus-citizenship-options/"
+      },
+      {
+        "label": "ATCA — M126 immigration services",
+        "url": "https://atca.com.cy/immigration-services/m126/"
+      },
+      {
+        "label": "Iacovou Law — Ways to obtain Cypriot citizenship",
+        "url": "https://iacovoulaw.cy/ways-to-obtain-cypriot-citizenship/"
+      },
+      {
+        "label": "Cyprus in UK — Citizenship",
+        "url": "https://cyprusinuk.com/citizenship/"
+      }
+    ]
+  },
+  "m126": {
+    "badge": "Informational only — not a calculator",
+    "title": "M126 — Registering a minor child as a Cypriot citizen",
+    "description": "For parents who acquired Cypriot citizenship AFTER their child's birth (by naturalization or by marriage-registration) to register their minor child as a Cypriot citizen.",
+    "whereFiled": "Filed at the District Office / Civil Registry, signed before a Registrar of a Cypriot Court.",
+    "documentsHeading": "Required documents",
+    "documents": [
+      "Parents' marriage certificate",
+      "Apostilled birth certificate of the minor",
+      "Passports",
+      "Parent's Cyprus registration / naturalization certificate",
+      "2 photographs",
+      "Written consent declaration",
+      "Proof of school enrolment"
+    ],
+    "ageCutoffWarning": "Sources disagree on the age cutoff for “minor” in this context — some cite 18, others 21. This is flagged as unverified. Confirm the correct age limit with a Cyprus immigration lawyer before relying on it.",
+    "counselNote": "This card is informational only and is not connected to the eligibility calculator above. Always verify current requirements and the age cutoff with counsel before filing.",
+    "sourceLabel": "Source",
+    "sourceLink": "https://atca.com.cy/immigration-services/m126/"
+  },
+  "export": {
+    "title": "Export your record",
+    "description": "Choose which sections to include, review and edit the text, then generate a PDF matching the reference record format.",
+    "sectionsHeading": "Sections to include",
+    "sectionHeader": "Header & personal details",
+    "sectionTravel": "Travel log (chronological record)",
+    "sectionTrips": "Trips after threshold table",
+    "sectionEligibility": "Eligibility summary",
+    "sectionEducation": "Education / explanation notes",
+    "editableNote": "Every text block below is editable before export.",
+    "downloadEn": "Download English",
+    "downloadGr": "Download Greek",
+    "downloadBoth": "Download both",
+    "marriageNoticeExport": "Final-period rules for the marriage route are unconfirmed — verify with counsel.",
+    "generating": "Generating…",
+    "previewHeading": "Notes included in export",
+    "customNoteLabel": "Add a custom note (optional)",
+    "footerLabel": "Footer text",
+    "pdf": {
+      "title": "Detailed Record of Arrivals and Departures\nto and from the Republic of Cyprus",
+      "subtitle": "Supporting document for the Cypriot citizenship by naturalization application",
+      "eventsHeading": "Chronological record of arrivals and departures",
+      "annualHeading": "Annual presence summary",
+      "year": "Year",
+      "presentDays": "Present days",
+      "notes": "Notes",
+      "total": "Total",
+      "referenceHeading": "Eligibility summary"
+    }
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "days": "days",
+    "years": "years",
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "close": "Close",
+    "of": "of",
+    "reasons": {
+      "eligible": "All requirements met.",
+      "cumulative-shortfall": "The cumulative-years requirement is not yet met.",
+      "anniversary-tolerance-exceeded": "Absences in the trailing 12-month window exceed the 90-day tolerance.",
+      "anniversary-insufficient-history": "Not enough presence history yet.",
+      "greek-level-missing": "Greek language level has not been selected.",
+      "marriage-date-missing": "Marriage date has not been entered.",
+      "marriage-years-not-met": "The 3-years-married requirement has not been met.",
+      "marriage-residence-not-met": "The 2-years cumulative residence requirement has not been met.",
+      "marriage-final-period-unconfirmed": "Final-period rules for marriage route are unconfirmed — verify with counsel."
+    }
+  }
+}

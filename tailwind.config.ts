@@ -81,9 +81,27 @@ export default {
           busy: "rgb(239 68 68)",
           offline: "rgb(156 163 175)",
         },
+        good: {
+          DEFAULT: "hsl(var(--good) / <alpha-value>)",
+          foreground: "hsl(var(--good-foreground) / <alpha-value>)",
+          bg: "hsl(var(--good-bg) / <alpha-value>)",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning) / <alpha-value>)",
+          foreground: "hsl(var(--warning-foreground) / <alpha-value>)",
+          bg: "hsl(var(--warning-bg) / <alpha-value>)",
+        },
+        error: {
+          DEFAULT: "hsl(var(--error) / <alpha-value>)",
+          foreground: "hsl(var(--error-foreground) / <alpha-value>)",
+          bg: "hsl(var(--error-bg) / <alpha-value>)",
+        },
+        surface: "hsl(var(--surface) / <alpha-value>)",
+        darkteal: "hsl(var(--darkteal) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],
+        display: ["var(--font-display)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
       },
