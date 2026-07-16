@@ -1,20 +1,28 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppState } from "@/lib/state/AppStateContext";
 import { SectionCard } from "@/components/wizard/Field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { getRouteYearsBreakdown, type GreekLevel, type Route } from "@/lib/engine";
 import { AlertTriangle } from "lucide-react";
+import { M126Panel } from "@/components/wizard/StepM126";
 
 export function StepRoute() {
   const { t } = useTranslation();
   const { state, update } = useAppState();
+  const [showM126, setShowM126] = useState(false);
 
   const routes: { value: Route; title: string; desc: string }[] = [
     { value: "fast-track", title: t("route.fastTrack"), desc: t("route.fastTrackDesc") },
     { value: "standard", title: t("route.standard"), desc: t("route.standardDesc") },
     { value: "marriage", title: t("route.marriage"), desc: t("route.marriageDesc") },
   ];
+
+  if (showM126) {
+    return <M126Panel onBack={() => setShowM126(false)} />;
+  }
 
   return (
     <SectionCard title={t("route.title")} description={t("route.description")}>
@@ -42,6 +50,33 @@ export function StepRoute() {
           </label>
         ))}
       </RadioGroup>
+
+      <button
+        type="button"
+        onClick={() => setShowM126(true)}
+        data-testid="button-route-m126"
+        className="flex items-start gap-3 rounded-md border border-dashed border-card-border p-3 text-left cursor-pointer hover-elevate"
+      >
+        <div>
+          <p className="font-medium text-sm">{t("m126.routeCardTitle")}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">{t("m126.routeCardDesc")}</p>
+        </div>
+      </button>
+
+      {state.route === "fast-track" && (
+        <div className="flex items-start gap-2 rounded-md border border-warning/30 bg-warning-bg p-3">
+          <Checkbox
+            id="fast-track-confirm"
+            checked={state.fastTrackConfirmed}
+            onCheckedChange={(v) => update("fastTrackConfirmed", Boolean(v))}
+            className="mt-0.5"
+            data-testid="checkbox-fast-track-confirm"
+          />
+          <Label htmlFor="fast-track-confirm" className="text-xs text-warning font-normal leading-relaxed cursor-pointer">
+            {t("route.fastTrackConfirmLabel")}
+          </Label>
+        </div>
+      )}
 
       {state.route !== "marriage" && (
         <div className="flex flex-col gap-3 pt-2 border-t border-border">

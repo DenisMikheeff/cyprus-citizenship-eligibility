@@ -108,7 +108,8 @@ export function evaluateEligibility(input: EngineInput): EligibilityResult {
     absenceIntervals,
     countStartDate,
     input.bcsYearSettings,
-    input.route
+    input.route,
+    input.bcsAnchorDate ? toDate(input.bcsAnchorDate) : undefined
   );
 
   const eligible = cumulative.met;

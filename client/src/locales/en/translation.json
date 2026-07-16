@@ -3,7 +3,8 @@
     "title": "Cyprus Citizenship Eligibility",
     "subtitle": "Estimate your naturalization eligibility and prepare supporting records",
     "languageLabel": "Interface language",
-    "disclaimer": "This tool provides an informal estimate only. It is not legal advice. Always verify results with a licensed Cyprus immigration lawyer before relying on any date or figure shown here."
+    "disclaimer": "This tool provides an informal estimate only. It is not legal advice. Always verify results with a licensed Cyprus immigration lawyer before relying on any date or figure shown here.",
+    "visaGapWarning": "This calculator was not designed for cases involving “visa gaps” — illegal periods, or periods without a valid visa, residence permit, or visa-free passport — even if someone from the migration authorities told you it wasn't a problem (e.g. during the COVID-19 pandemic). If this applies to you, we recommend seeking legal advice instead of relying on this or any online calculator to assess your eligibility."
   },
   "nav": {
     "back": "Back",
@@ -18,7 +19,6 @@
     "trips": "Trips after threshold",
     "eligibility": "Eligibility",
     "education": "How this works",
-    "m126": "Minor registration (M126)",
     "export": "Export"
   },
   "route": {
@@ -42,7 +42,8 @@
     "standardShort": "Standard",
     "marriageShort": "Marriage",
     "totalYearsBreakdown_one": "{{count}} year total ({{cumulative}} + 1)",
-    "totalYearsBreakdown_other": "{{count}} years total ({{cumulative}} + 1)"
+    "totalYearsBreakdown_other": "{{count}} years total ({{cumulative}} + 1)",
+    "fastTrackConfirmLabel": "I confirm that I have worked in BCS companies for at least 2 consecutive years immediately preceding my application, without any change of status or “visa gaps” (violations)."
   },
   "personal": {
     "title": "Personal details",
@@ -54,7 +55,8 @@
     "arcNumber": "ARC number",
     "arcNumberPlaceholder": "e.g. 0123456789",
     "applicationDate": "Intended application date",
-    "applicationDateDescription": "The date you plan to submit your application. All calculations run backward from this date. This date itself is never counted as a day of presence."
+    "applicationDateDescription": "The date you plan to submit your application. All calculations run backward from this date. This date itself is never counted as a day of presence. Optional — you can leave this blank and still generate a record.",
+    "localProcessingNote": "Every field on this screen is optional, including the application date. This website has no backend and no database — nothing you type here is ever sent to a remote server, and all calculations run locally in your browser. If you'd rather not type in personal details at all, leave these fields blank; the exported PDF will keep matching blank lines in their place so you can fill them in by hand after printing."
   },
   "arc": {
     "title": "ARC and receipt dates",
@@ -64,9 +66,15 @@
     "includeArcDate": "Include the ARC issuing date itself as a day of presence",
     "firstReceiptDate": "First-ever receipt issuing date (any type)",
     "sameAsArc": "Same as ARC issuing date",
-    "firstBcsReceiptDate": "First-ever BCS receipt issuing date",
+    "firstBcsReceiptDate": "First-ever BCS receipt issuing date OR date of commencement of employment in a BCS company",
+    "firstBcsReceiptDateDescription": "For those who don't need a BCS residence permit to work: use the date you started employment in a BCS company instead, provided your monthly gross salary was at least €2,500 (if you have no dependants). The concession calculation logic is the same either way.",
     "firstReceiptWasBcs": "First receipt was a BCS receipt",
-    "referenceOnlyNote": "These receipt dates are stored for your reference table only. They do not affect the eligibility calculation."
+    "referenceOnlyNote": "These receipt dates are stored for your reference table only. They do not affect the eligibility calculation.",
+    "nearestValidDateLabel": "Based on your current data, the nearest date on which you could be eligible to apply is {{date}}.",
+    "nearestValidDateNotFound": "No eligible application date was found within the next 5 years with your current data. Add more travel and ARC details to refine this estimate.",
+    "applicationDateValid": "Your selected application date on the Personal details screen looks valid based on current data.",
+    "applicationDateInvalid": "Your selected application date on the Personal details screen does not appear to be valid based on current data — consider adopting the nearest valid date above instead.",
+    "bcsAssumptionNote": "This calculator does not account for back-and-forth status changes. It simply assumes you worked in a BCS company with the required salary for at least 2 years immediately preceding the application date — in that case, the type of residence permit under which the needed years (days) were accumulated doesn't matter much. If you believe your case has peculiarities, or you spent less than half of the overall period working in a BCS company, it's best to seek legal advice."
   },
   "travel": {
     "title": "Travel log",
@@ -84,7 +92,7 @@
     "presetDescription": "These optional dates are shown for your own reference in the exported record. They are never used in the eligibility calculation.",
     "addResidencePermitDate": "Add “Residence permit printed” reference date",
     "rpType": "Residence permit type",
-    "rpTypePlaceholder": "e.g. VIS, BCS",
+    "rpTypePlaceholder": "E.g. 'Change of Residence Permit type from VIS to BCS'",
     "rpDate": "Printing date",
     "orderWarning": "Events must alternate departure / arrival in date order for the calculation to be accurate.",
     "importedFromEngine": "Used directly in the eligibility calculation."
@@ -92,13 +100,18 @@
   "trips": {
     "title": "Trips after the cumulative threshold",
     "description": "Once your cumulative years requirement is met, every trip taken afterward is shown here automatically — it mirrors the “Trips after threshold” table in the exported record.",
-    "noThresholdYet": "The cumulative threshold has not been reached yet with your current data, so there is nothing to show here.",
+    "noThresholdYet": "The cumulative threshold has not been reached yet with your current data. Trips are still shown below as they are logged in your travel log.",
     "departure": "Departure",
     "return": "Return",
     "daysAbsent": "Days absent",
     "tripTo": "Trip to (optional note)",
     "total": "Total",
-    "thresholdReachedOn": "Cumulative threshold reached on {{date}}"
+    "thresholdReachedOn": "Cumulative threshold reached on {{date}}",
+    "noTripsYet": "No trips to show yet. Trips are populated automatically from your travel log, or you can add one manually below.",
+    "addManualTrip": "Add trip manually",
+    "manualWarning": "Adding trips manually may disrupt the automatic detection from your travel log. We recommend completing the Travel log step first, and only using this if a trip is missing or needs correcting.",
+    "confirmManualTrip": "Add trip",
+    "cancelManualTrip": "Cancel"
   },
   "toggles": {
     "title": "Toggles",
@@ -143,7 +156,7 @@
     "searching": "Searching…",
     "improvementTitle": "You might be able to improve your eligibility date",
     "improvementArc": "Turning on “include ARC date” could move your nearest eligible date about {{days}} day(s) earlier.",
-    "improvementBcs": "Turning on the BCS concession for {{year}} could move your nearest eligible date about {{days}} day(s) earlier.",
+    "improvementBcs": "Turning on the BCS concession for {{period}} could move your nearest eligible date about {{days}} day(s) earlier.",
     "applyToggle": "Apply this toggle",
     "dismiss": "Dismiss",
     "needMoreData": "Enter your ARC date, application date, and travel log to see a live eligibility estimate here."
@@ -266,7 +279,10 @@
     "ageCutoffWarning": "Sources disagree on the age cutoff for “minor” in this context — some cite 18, others 21. This is flagged as unverified. Confirm the correct age limit with a Cyprus immigration lawyer before relying on it.",
     "counselNote": "This card is informational only and is not connected to the eligibility calculator above. Always verify current requirements and the age cutoff with counsel before filing.",
     "sourceLabel": "Source",
-    "sourceLink": "https://atca.com.cy/immigration-services/m126/"
+    "sourceLink": "https://atca.com.cy/immigration-services/m126/",
+    "routeCardTitle": "M126 — Registering a minor child as a Cypriot citizen",
+    "routeCardDesc": "Informational only — for parents who acquired Cypriot citizenship after their child's birth. Not connected to the eligibility calculator.",
+    "backToRoutes": "Back to routes"
   },
   "export": {
     "title": "Export your record",
@@ -283,6 +299,8 @@
     "downloadBoth": "Download both",
     "marriageNoticeExport": "Final-period rules for the marriage route are unconfirmed — verify with counsel.",
     "generating": "Generating…",
+    "floatingDownloadLabel": "Download",
+    "floatingDownloadTooltip": "Every field in this app is optional — you can generate a PDF record at any point, with as little or as much data as you've entered so far.",
     "previewHeading": "Notes included in export",
     "customNoteLabel": "Add a custom note (optional)",
     "footerLabel": "Footer text",

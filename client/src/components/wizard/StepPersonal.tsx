@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useAppState } from "@/lib/state/AppStateContext";
 import { SectionCard, Field } from "@/components/wizard/Field";
 import { Input } from "@/components/ui/input";
+import { Info } from "lucide-react";
 
 export function StepPersonal() {
   const { t } = useTranslation();
@@ -9,6 +10,13 @@ export function StepPersonal() {
 
   return (
     <SectionCard title={t("personal.title")} description={t("personal.description")}>
+      <div className="flex items-start gap-2 rounded-md border border-teal-800/20 bg-surface p-3">
+        <Info className="h-4 w-4 text-teal-800 mt-0.5 shrink-0" />
+        <p className="text-xs text-teal-900" data-testid="text-local-processing-note">
+          {t("personal.localProcessingNote")}
+        </p>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t("personal.fullName")} htmlFor="fullName">
           <Input

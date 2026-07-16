@@ -12,12 +12,19 @@ import {
   suggestArcDateInclusion,
   suggestBcsConcessionForYear,
 } from "@/lib/engine";
-import { formatISODisplay } from "@/lib/state/engineHelpers";
+import { bcsPeriodRangeLabel, formatISODisplay } from "@/lib/state/engineHelpers";
 import { X, Lightbulb, Search } from "lucide-react";
 
 export function StepToggles() {
   const { t, i18n } = useTranslation();
   const { state, update, engineInput } = useAppState();
+
+  // Item 11: BCS concession buckets are rolling 365-day windows from the
+  // first BCS receipt date, not calendar years. Once that date is known,
+  // show the actual date range instead of a bare year number.
+  const bcsAnchor = state.arc.firstBcsReceiptDate;
+  const bcsBucketLabel = (year: number) =>
+    bcsAnchor ? bcsPeriodRangeLabel(bcsAnchor, year, i18n.language) : t("toggles.bcsYearLabel", { year });
   const [nearestResult, setNearestResult] = useState<
     ReturnType<typeof findNearestEligibleDate> | null
   >(null);
@@ -114,8 +121,8 @@ export function StepToggles() {
                     className="flex flex-wrap items-center gap-4 rounded-md border border-card-border p-2.5"
                     data-testid={`row-bcs-year-${setting.year}`}
                   >
-                    <span className="text-sm font-medium w-16">
-                      {t("toggles.bcsYearLabel", { year: setting.year })}
+                    <span className="text-sm font-medium min-w-[9rem]">
+                      {bcsBucketLabel(setting.year)}
                     </span>
                     <label className="flex items-center gap-2 text-xs">
                       <Switch
@@ -221,7 +228,10 @@ export function StepToggles() {
               <div className="flex items-start gap-2">
                 <Lightbulb className="h-4 w-4 text-warning mt-0.5 shrink-0" />
                 <p className="text-xs text-warning">
-                  {t("eligibility.improvementBcs", { year, days: suggestion.estimatedImprovementDays })}
+                  {t("eligibility.improvementBcs", {
+                    period: bcsBucketLabel(year),
+                    days: suggestion.estimatedImprovementDays,
+                  })}
                 </p>
               </div>
               <div className="flex items-center gap-2 shrink-0">

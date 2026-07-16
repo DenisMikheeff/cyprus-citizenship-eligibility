@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppStateProvider } from "@/lib/state/AppStateContext";
+import { AppStateProvider, useAppState } from "@/lib/state/AppStateContext";
 import { WizardShell, STEP_KEYS } from "@/components/wizard/WizardShell";
 import { StepRoute } from "@/components/wizard/StepRoute";
 import { StepPersonal } from "@/components/wizard/StepPersonal";
@@ -9,11 +9,11 @@ import { StepTravel } from "@/components/wizard/StepTravel";
 import { StepTrips } from "@/components/wizard/StepTrips";
 import { StepToggles } from "@/components/wizard/StepToggles";
 import { StepEducation } from "@/components/wizard/StepEducation";
-import { StepM126 } from "@/components/wizard/StepM126";
 import { StepExport } from "@/components/wizard/StepExport";
+import { FloatingDownloadButton } from "@/components/wizard/FloatingDownloadButton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
-import { Globe } from "lucide-react";
+import { Globe, AlertTriangle } from "lucide-react";
 
 const STEP_COMPONENTS = [
   StepRoute,
@@ -23,18 +23,29 @@ const STEP_COMPONENTS = [
   StepTrips,
   StepToggles,
   StepEducation,
-  StepM126,
   StepExport,
 ];
 
 function WizardContent() {
   const [currentStep, setCurrentStep] = useState(0);
   const { t, i18n } = useTranslation();
+  const { state } = useAppState();
 
   const StepComponent = STEP_COMPONENTS[currentStep];
+  const isFastTrackBlocked = state.route === "fast-track" && !state.fastTrackConfirmed;
+  const isExportStep = currentStep === STEP_KEYS.length - 1;
 
   return (
     <div className="min-h-screen bg-background">
+      <div
+        className="border-b border-warning/40 bg-warning-bg"
+        data-testid="banner-visa-gap-warning"
+      >
+        <div className="mx-auto max-w-3xl px-4 py-2.5 flex items-start gap-2">
+          <AlertTriangle className="h-4 w-4 text-warning mt-0.5 shrink-0" />
+          <p className="text-xs text-warning">{t("app.visaGapWarning")}</p>
+        </div>
+      </div>
       <header className="border-b border-border">
         <div className="mx-auto max-w-3xl px-4 py-4 flex items-center justify-between gap-4">
           <div>
@@ -74,11 +85,13 @@ function WizardContent() {
           onStepChange={setCurrentStep}
           onBack={() => setCurrentStep((s) => Math.max(0, s - 1))}
           onNext={() => setCurrentStep((s) => Math.min(STEP_KEYS.length - 1, s + 1))}
-          canGoNext={true}
+          canGoNext={currentStep === 0 ? !isFastTrackBlocked : true}
         >
           <StepComponent />
         </WizardShell>
       </main>
+
+      {!isExportStep && <FloatingDownloadButton />}
     </div>
   );
 }

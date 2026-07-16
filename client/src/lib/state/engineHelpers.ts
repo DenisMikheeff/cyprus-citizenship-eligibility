@@ -15,3 +15,17 @@ export function formatISODisplay(iso: string, locale: string = "en-GB"): string 
     return iso;
   }
 }
+
+/** Human-readable date range for a rolling 365-day BCS concession bucket,
+ * counted from `anchorISO` (the applicant's first BCS status date). */
+export function bcsPeriodRangeLabel(
+  anchorISO: string,
+  bucket: number,
+  locale: string = "en-GB"
+): string {
+  const anchorMs = new Date(anchorISO + "T00:00:00").getTime();
+  const startMs = anchorMs + bucket * 365 * 86400000;
+  const endMs = startMs + 364 * 86400000;
+  const toISO = (ms: number) => new Date(ms).toISOString().slice(0, 10);
+  return `${formatISODisplay(toISO(startMs), locale)} – ${formatISODisplay(toISO(endMs), locale)}`;
+}

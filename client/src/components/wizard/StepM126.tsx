@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { SectionCard } from "@/components/wizard/Field";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Info } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AlertTriangle, ArrowLeft, Info } from "lucide-react";
 
-export function StepM126() {
+export function M126Panel({ onBack }: { onBack: () => void }) {
   const { t } = useTranslation();
   const documents = t("m126.documents", { returnObjects: true }) as string[];
 
@@ -13,6 +14,18 @@ export function StepM126() {
       description={t("m126.description")}
       badge={<Badge variant="outline" data-testid="badge-m126-informational">{t("m126.badge")}</Badge>}
     >
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="self-start gap-1.5"
+        onClick={onBack}
+        data-testid="button-m126-back-to-routes"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        {t("m126.backToRoutes")}
+      </Button>
+
       <div className="flex items-start gap-2 rounded-md border border-teal-800/20 bg-surface p-3">
         <Info className="h-4 w-4 text-teal-800 mt-0.5 shrink-0" />
         <p className="text-xs text-teal-900" data-testid="text-m126-not-calculator">

@@ -19,6 +19,15 @@ const BCS_CONCESSION_CAP_DAYS = 90;
 const ROLLING_WINDOW_YEARS = 10;
 const MAX_FORWARD_SCAN_DAYS = 20 * 365; // safety cap (~20 years)
 
+/** Buckets a date into a BCS concession "year" — either a rolling 365-day
+ * period counted from `anchorDate` (the applicant's first BCS status date),
+ * or (when no anchor is supplied) the plain calendar year, preserved for
+ * backward compatibility. */
+function getBcsBucket(date: Date, anchorDate?: Date): number {
+  if (!anchorDate) return getYear(date);
+  return Math.floor(differenceInCalendarDays(date, anchorDate) / 365);
+}
+
 /** Exact calendar length of `years` years ending at windowEnd (leap-year accurate). */
 export function requiredCumulativeDays(years: number, windowEndISO: string): number {
   const windowEnd = toDate(windowEndISO);
@@ -41,6 +50,7 @@ export function computeCumulativePresence(
   countStartDate: Date,
   bcsYearSettings: BcsYearSetting[],
   route: Route,
+  bcsAnchorDate?: Date,
   rollingWindowYears: number = ROLLING_WINDOW_YEARS
 ): CumulativeResult {
   const windowEnd = toDate(windowEndISO);
@@ -66,7 +76,7 @@ export function computeCumulativePresence(
       if (isPresentOn(cursor, absenceIntervals)) {
         presentDays++;
       } else {
-        const y = getYear(cursor);
+        const y = getBcsBucket(cursor, bcsAnchorDate);
         absentByYear.set(y, (absentByYear.get(y) ?? 0) + 1);
       }
       cursor = addDays(cursor, 1);
@@ -88,7 +98,8 @@ export function computeCumulativePresence(
     absenceIntervals,
     effectiveStart,
     bcsYearSettings,
-    route
+    route,
+    bcsAnchorDate
   );
 
   return {
@@ -130,7 +141,8 @@ export function findCumulativeThresholdDate(
   absenceIntervals: DateInterval[],
   countStartDate: Date,
   bcsYearSettings: BcsYearSetting[],
-  route: Route
+  route: Route,
+  bcsAnchorDate?: Date
 ): ISODate | null {
   const concessionByYear = new Map<number, boolean>();
   if (route === "fast-track") {
@@ -145,7 +157,7 @@ export function findCumulativeThresholdDate(
     let cursor = countStartDate;
     while (!isAfter(cursor, horizon)) {
       if (!isPresentOn(cursor, absenceIntervals)) {
-        const y = getYear(cursor);
+        const y = getBcsBucket(cursor, bcsAnchorDate);
         totalAbsentByYear.set(y, (totalAbsentByYear.get(y) ?? 0) + 1);
       }
       cursor = addDays(cursor, 1);
@@ -160,7 +172,7 @@ export function findCumulativeThresholdDate(
     if (present) {
       counted++;
     } else {
-      const y = getYear(cursor);
+      const y = getBcsBucket(cursor, bcsAnchorDate);
       const yearHasConcession = concessionByYear.get(y) === true;
       const yearCap = Math.min(totalAbsentByYear.get(y) ?? 0, BCS_CONCESSION_CAP_DAYS);
       const usedSoFar = forgivenUsedByYear.get(y) ?? 0;

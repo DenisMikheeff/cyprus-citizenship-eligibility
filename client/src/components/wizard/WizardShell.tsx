@@ -12,7 +12,6 @@ export const STEP_KEYS = [
   "trips",
   "eligibility",
   "education",
-  "m126",
   "export",
 ] as const;
 

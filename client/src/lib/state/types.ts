@@ -34,10 +34,24 @@ export interface ExportSectionToggles {
   education: boolean;
 }
 
+// A manually-entered trip (as opposed to one auto-derived from the travel
+// event log) for the "trips after cumulative threshold" reference table.
+export interface ManualTrip {
+  id: string;
+  departureDate: string; // ISO
+  arrivalDate: string; // ISO
+  destination: string;
+}
+
 export interface AppState {
   route: Route;
   greekLevel: GreekLevel;
   marriageDate: string; // ISO, marriage route only
+
+  // Fast-track only: confirms the applicant meets the 2-consecutive-year
+  // BCS employment / no-visa-gap requirement described in the fast-track
+  // warning. Gates progression past the route step.
+  fastTrackConfirmed: boolean;
 
   personal: PersonalDetails;
   arc: ArcReceiptDetails;
@@ -46,6 +60,10 @@ export interface AppState {
   referencePermits: ResidencePermitReference[];
 
   bcsYearSettings: BcsYearSetting[];
+
+  // Manually-entered trips for the trips-after-threshold table, in addition
+  // to those auto-derived from the travel event log.
+  manualTrips: ManualTrip[];
 
   // Destination/country label per travel-event id, keyed by the departure
   // event's id, for the trips-after-threshold reference table.
@@ -64,6 +82,7 @@ export const DEFAULT_APP_STATE: AppState = {
   route: "fast-track",
   greekLevel: "B1",
   marriageDate: "",
+  fastTrackConfirmed: false,
 
   personal: {
     fullName: "",
@@ -84,6 +103,7 @@ export const DEFAULT_APP_STATE: AppState = {
   referencePermits: [],
 
   bcsYearSettings: [],
+  manualTrips: [],
   tripDestinations: {},
 
   dismissedSuggestions: [],

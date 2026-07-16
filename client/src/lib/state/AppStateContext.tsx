@@ -29,6 +29,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       events: state.events,
       applicationDate: state.personal.applicationDate || arcDate,
       bcsYearSettings: state.bcsYearSettings,
+      bcsAnchorDate: state.arc.firstBcsReceiptDate || undefined,
       marriageDate: state.route === "marriage" ? state.marriageDate : undefined,
     };
   }, [state]);
@@ -48,6 +49,28 @@ export function useAppState() {
  * the BCS-year-settings list (fast-track only) without the user typing years
  * manually. */
 export function deriveCandidateYears(state: AppState): number[] {
+  const anchor = state.arc.firstBcsReceiptDate;
+  if (anchor) {
+    // Rolling 365-day BCS periods, bucketed relative to the anchor date.
+    const anchorMs = new Date(anchor + "T00:00:00").getTime();
+    const buckets = new Set<number>();
+    const toBucket = (iso: string) => {
+      const ms = new Date(iso + "T00:00:00").getTime();
+      return Math.floor((ms - anchorMs) / 86400000 / 365);
+    };
+    buckets.add(0);
+    if (state.arc.arcDate) buckets.add(toBucket(state.arc.arcDate));
+    if (state.personal.applicationDate) buckets.add(toBucket(state.personal.applicationDate));
+    for (const e of state.events as TravelEvent[]) buckets.add(toBucket(e.date));
+    const arr = Array.from(buckets);
+    const min = Math.min(...arr);
+    const max = Math.max(...arr);
+    const out: number[] = [];
+    for (let b = min; b <= max; b++) out.push(b);
+    return out;
+  }
+
+  // Fallback: plain calendar years (no BCS anchor set yet).
   const years = new Set<number>();
   if (state.arc.arcDate) years.add(getYear(state.arc.arcDate));
   if (state.personal.applicationDate) years.add(getYear(state.personal.applicationDate));

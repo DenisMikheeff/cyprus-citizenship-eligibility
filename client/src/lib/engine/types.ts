@@ -36,6 +36,9 @@ export interface EngineInput {
   events: TravelEvent[];
   applicationDate: ISODate;
   bcsYearSettings: BcsYearSetting[];
+  /** Anchor date for BCS concession rolling-365-day periods; defaults to
+   * calendar-year buckets when omitted. */
+  bcsAnchorDate?: ISODate;
   /** Marriage route only. */
   marriageDate?: ISODate;
   /** Boundary for "today" — presence after the last logged event and before

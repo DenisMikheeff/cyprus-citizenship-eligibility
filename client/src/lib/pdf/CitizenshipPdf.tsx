@@ -54,6 +54,16 @@ function styles(lang: "en" | "gr") {
       color: TEXT,
     },
     metaValue: { fontFamily: "Inter", fontSize: 9.5, color: TEXT, flex: 1 },
+    // Item 4: when a personal-details field is left blank, render an empty
+    // underlined box of the same height instead of a bare dash, so the
+    // printed page keeps a consistent, hand-writable layout regardless of
+    // how many fields were filled in digitally.
+    metaBlankLine: {
+      flex: 1,
+      height: 10,
+      borderBottomWidth: 0.75,
+      borderBottomColor: BORDER,
+    },
     hr: { borderBottomWidth: 1.1, borderBottomColor: TEAL, marginVertical: 6 },
     h2: { fontFamily: display, fontSize: 13, color: DARKTEAL, marginTop: 10, marginBottom: 5 },
     table: { borderWidth: 0.4, borderColor: BORDER },
@@ -323,23 +333,37 @@ export function CitizenshipPdf({ lang, labels, state, result, sections, customNo
             <Text style={s.subtitle}>{labels.subtitle}</Text>
             <View style={s.metaRow}>
               <Text style={s.metaLabel}>{labels.applicantLabel}:</Text>
-              <Text style={s.metaValue}>{state.personal.fullName || labels.dash}</Text>
+              {state.personal.fullName ? (
+                <Text style={s.metaValue}>{state.personal.fullName}</Text>
+              ) : (
+                <View style={s.metaBlankLine} />
+              )}
             </View>
             <View style={s.metaRow}>
               <Text style={s.metaLabel}>{labels.passportLabel}:</Text>
-              <Text style={s.metaValue}>{state.personal.passportNumber || labels.dash}</Text>
+              {state.personal.passportNumber ? (
+                <Text style={s.metaValue}>{state.personal.passportNumber}</Text>
+              ) : (
+                <View style={s.metaBlankLine} />
+              )}
             </View>
             <View style={s.metaRow}>
               <Text style={s.metaLabel}>{labels.arcLabel}:</Text>
-              <Text style={s.metaValue}>{state.personal.arcNumber || labels.dash}</Text>
+              {state.personal.arcNumber ? (
+                <Text style={s.metaValue}>{state.personal.arcNumber}</Text>
+              ) : (
+                <View style={s.metaBlankLine} />
+              )}
             </View>
             <View style={s.metaRow}>
               <Text style={s.metaLabel}>{labels.appDateLabel}:</Text>
-              <Text style={s.metaValue}>
-                {state.personal.applicationDate
-                  ? formatISODisplay(state.personal.applicationDate, locale)
-                  : labels.dash}
-              </Text>
+              {state.personal.applicationDate ? (
+                <Text style={s.metaValue}>
+                  {formatISODisplay(state.personal.applicationDate, locale)}
+                </Text>
+              ) : (
+                <View style={s.metaBlankLine} />
+              )}
             </View>
             <View style={s.hr} />
           </View>
