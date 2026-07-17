@@ -13,7 +13,7 @@ _Last updated: July 2026._
 - Greek-language proficiency step offers the standard B1/A2 options plus the May 2024 exemption (Greek-taught school-leaving certificate or degree), available to both fast-track and standard applicants.
 - Tracks a full travel log (arrivals/departures) and automatically surfaces trips taken after the cumulative threshold is reached — the table only populates once the threshold is actually met, with an option to add or edit trips manually.
 - Includes a separate, free-form reference-dates table for anything else worth noting for your own records (e.g. when a residence permit was printed, or when your residence status changed) — never used in the eligibility calculation itself.
-- Applies the BCS (Business of Collective Strategic companies / highly-skilled employment) concession on a rolling 365-day basis, not calendar years.
+- Applies the BCS concession (fast-track route only) on a rolling 365-day basis, not calendar years.
 - Generates a print-ready PDF summary (English, Greek, or both) that mirrors the official "Detailed Record of Arrivals and Departures" format, with an optional custom note section (header + body) you can add to the export, and lets you download it at any point in the flow — every field is optional.
 - Ships in three interface languages: English, Russian (Русский), and Greek (Ελληνικά).
 
