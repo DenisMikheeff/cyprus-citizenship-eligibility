@@ -1,8 +1,15 @@
 {
   "name": "cyprus-citizenship-eligibility",
   "version": "1.0.0",
+  "description": "Free, client-side calculator estimating Cypriot citizenship-by-naturalization eligibility from physical presence, ARC history, and travel records. English/Russian/Greek UI, PDF export, no backend.",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DenisMikheeff/cyprus-citizenship-eligibility.git"
+  },
+  "homepage": "https://denismikheeff.github.io/cyprus-citizenship-eligibility/",
+  "author": "Denis Mikheev",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
