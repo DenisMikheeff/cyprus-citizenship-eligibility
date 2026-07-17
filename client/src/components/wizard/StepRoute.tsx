@@ -9,10 +9,12 @@ import { getRouteYearsBreakdown, type GreekLevel, type Route } from "@/lib/engin
 import { AlertTriangle } from "lucide-react";
 import { M126Panel } from "@/components/wizard/StepM126";
 
+type RouteSelection = Route | "m126";
+
 export function StepRoute() {
   const { t } = useTranslation();
   const { state, update } = useAppState();
-  const [showM126, setShowM126] = useState(false);
+  const [selection, setSelection] = useState<RouteSelection>(state.route);
 
   const routes: { value: Route; title: string; desc: string }[] = [
     { value: "fast-track", title: t("route.fastTrack"), desc: t("route.fastTrackDesc") },
@@ -20,15 +22,19 @@ export function StepRoute() {
     { value: "marriage", title: t("route.marriage"), desc: t("route.marriageDesc") },
   ];
 
-  if (showM126) {
-    return <M126Panel onBack={() => setShowM126(false)} />;
-  }
+  const handleSelectionChange = (v: string) => {
+    const next = v as RouteSelection;
+    setSelection(next);
+    if (next !== "m126") {
+      update("route", next as Route);
+    }
+  };
 
   return (
     <SectionCard title={t("route.title")} description={t("route.description")}>
       <RadioGroup
-        value={state.route}
-        onValueChange={(v) => update("route", v as Route)}
+        value={selection}
+        onValueChange={handleSelectionChange}
         data-testid="radiogroup-route"
       >
         {routes.map((r) => (
@@ -49,21 +55,26 @@ export function StepRoute() {
             </div>
           </label>
         ))}
+        <label
+          htmlFor="route-m126"
+          className="flex items-start gap-3 rounded-md border border-card-border p-3 cursor-pointer hover-elevate"
+        >
+          <RadioGroupItem
+            value="m126"
+            id="route-m126"
+            data-testid="radio-route-m126"
+            className="mt-1"
+          />
+          <div>
+            <p className="font-medium text-sm">{t("m126.routeCardTitle")}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{t("m126.routeCardDesc")}</p>
+          </div>
+        </label>
       </RadioGroup>
 
-      <button
-        type="button"
-        onClick={() => setShowM126(true)}
-        data-testid="button-route-m126"
-        className="flex items-start gap-3 rounded-md border border-dashed border-card-border p-3 text-left cursor-pointer hover-elevate"
-      >
-        <div>
-          <p className="font-medium text-sm">{t("m126.routeCardTitle")}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">{t("m126.routeCardDesc")}</p>
-        </div>
-      </button>
+      {selection === "m126" && <M126Panel />}
 
-      {state.route === "fast-track" && (
+      {selection !== "m126" && state.route === "fast-track" && (
         <div className="flex items-start gap-2 rounded-md border border-warning/30 bg-warning-bg p-3">
           <Checkbox
             id="fast-track-confirm"
@@ -78,7 +89,7 @@ export function StepRoute() {
         </div>
       )}
 
-      {state.route !== "marriage" && (
+      {selection !== "m126" && state.route !== "marriage" && (
         <div className="flex flex-col gap-3 pt-2 border-t border-border">
           <Label>{t("route.greekLevelLabel")}</Label>
           <p className="text-xs text-muted-foreground -mt-2">{t("route.greekLevelDescription")}</p>
@@ -92,7 +103,7 @@ export function StepRoute() {
               ...(state.route === "fast-track"
                 ? [{ value: "A2" as GreekLevel, label: t("route.greekA2") }]
                 : []),
-              ...(state.route === "fast-track"
+              ...(state.route === "fast-track" || state.route === "standard"
                 ? [{ value: "exempt" as GreekLevel, label: t("route.greekExempt") }]
                 : []),
             ].map((opt) => (
@@ -122,7 +133,7 @@ export function StepRoute() {
         </div>
       )}
 
-      {state.route === "marriage" && (
+      {selection !== "m126" && state.route === "marriage" && (
         <div className="flex items-start gap-2 rounded-md border border-warning/30 bg-warning-bg p-3">
           <AlertTriangle className="h-4 w-4 text-warning mt-0.5 shrink-0" />
           <p className="text-xs text-warning" data-testid="text-marriage-notice-route">

@@ -49,7 +49,10 @@ export function StepArc() {
   const selectedDateCheck = useMemo(() => {
     if (!arc.arcDate || !state.personal.applicationDate) return null;
     try {
-      return evaluateEligibility({ ...engineInput, applicationDate: state.personal.applicationDate });
+      return evaluateEligibility(
+        { ...engineInput, applicationDate: state.personal.applicationDate },
+        { skipThresholdDate: true }
+      );
     } catch {
       return null;
     }

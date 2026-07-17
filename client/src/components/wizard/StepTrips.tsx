@@ -51,17 +51,19 @@ export function StepTrips() {
   // residence check). See cumulative.ts docs.
   const thresholdReachedDate = result?.cumulative?.thresholdReachedDate ?? undefined;
 
-  // Item 9: this table no longer blocks on thresholdReachedDate being set —
-  // it auto-derives trips from whatever travel events already exist,
-  // preferring to scope them to "after the threshold" once that date is
-  // known, but showing everything available before that.
+  // This table only ever shows trips once the cumulative threshold date is
+  // known — until then, we can't tell which trips count as "after the
+  // threshold", so nothing is shown (see trips.noThresholdYet copy). Empty
+  // (not-yet-dated) travel log entries are also always excluded.
   const autoTrips: TripRow[] = useMemo(() => {
+    if (!thresholdReachedDate) return [];
     const sorted = [...state.events].sort((a, b) => a.date.localeCompare(b.date));
     const rows: TripRow[] = [];
     for (let i = 0; i < sorted.length; i++) {
       const ev = sorted[i];
       if (ev.type !== "departure") continue;
-      if (thresholdReachedDate && ev.date < thresholdReachedDate) continue;
+      if (!ev.date) continue;
+      if (ev.date < thresholdReachedDate) continue;
       const next = sorted[i + 1];
       const arrival = next && next.type === "arrival" ? next : null;
       // Per the verified engine convention (presence.ts): the departure day

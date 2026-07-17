@@ -24,6 +24,7 @@ interface WizardShellProps {
   onNext: () => void;
   canGoNext: boolean;
   children: ReactNode;
+  downloadButton?: ReactNode;
 }
 
 export function WizardShell({
@@ -33,6 +34,7 @@ export function WizardShell({
   onNext,
   canGoNext,
   children,
+  downloadButton,
 }: WizardShellProps) {
   const { t } = useTranslation();
   const total = STEP_KEYS.length;
@@ -93,15 +95,20 @@ export function WizardShell({
           <ChevronLeft className="h-4 w-4" />
           {t("nav.back")}
         </Button>
-        <Button
-          type="button"
-          onClick={onNext}
-          disabled={!canGoNext || currentStep === total - 1}
-          data-testid="button-wizard-next"
-        >
-          {t("nav.next")}
-          <ChevronRight className="h-4 w-4" />
-        </Button>
+        {currentStep < total - 1 && (
+          <div className="flex items-center gap-2">
+            {downloadButton}
+            <Button
+              type="button"
+              onClick={onNext}
+              disabled={!canGoNext}
+              data-testid="button-wizard-next"
+            >
+              {t("nav.next")}
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

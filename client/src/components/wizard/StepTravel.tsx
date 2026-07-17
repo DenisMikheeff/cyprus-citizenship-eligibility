@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Trash2, AlertTriangle } from "lucide-react";
+import { Plus, Trash2, AlertTriangle, Info } from "lucide-react";
 import type { EventType, TravelEvent } from "@/lib/engine";
 
 function uid() {
@@ -61,16 +61,16 @@ export function StepTravel() {
             <Table data-testid="table-travel-events">
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("travel.date")}</TableHead>
-                  <TableHead>{t("travel.type")}</TableHead>
-                  <TableHead>{t("travel.passportPage")}</TableHead>
+                  <TableHead className="w-[150px]">{t("travel.date")}</TableHead>
+                  <TableHead className="min-w-[130px]">{t("travel.type")}</TableHead>
+                  <TableHead className="min-w-[100px]">{t("travel.passportPage")}</TableHead>
                   <TableHead />
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {state.events.map((ev) => (
                   <TableRow key={ev.id} data-testid={`row-event-${ev.id}`}>
-                    <TableCell>
+                    <TableCell className="w-[150px]">
                       <Input
                         type="date"
                         value={ev.date}
@@ -78,7 +78,7 @@ export function StepTravel() {
                         onChange={(e) => updateEvent(ev.id, { date: e.target.value })}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="min-w-[130px]">
                       <Select
                         value={ev.type}
                         onValueChange={(v) => updateEvent(ev.id, { type: v as EventType })}
@@ -92,7 +92,7 @@ export function StepTravel() {
                         </SelectContent>
                       </Select>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="min-w-[100px]">
                       <Input
                         placeholder={t("travel.passportPagePlaceholder")}
                         value={ev.passportPage ?? ""}
@@ -139,23 +139,23 @@ export function StepTravel() {
             <Table data-testid="table-reference-permits">
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("travel.rpType")}</TableHead>
-                  <TableHead>{t("travel.rpDate")}</TableHead>
+                  <TableHead className="min-w-[160px]">{t("travel.referenceNote")}</TableHead>
+                  <TableHead className="w-[150px]">{t("travel.referenceDate")}</TableHead>
                   <TableHead />
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {state.referencePermits.map((rp) => (
                   <TableRow key={rp.id} data-testid={`row-reference-permit-${rp.id}`}>
-                    <TableCell>
+                    <TableCell className="min-w-[160px]">
                       <Input
-                        placeholder={t("travel.rpTypePlaceholder")}
+                        placeholder={t("travel.referenceNotePlaceholder")}
                         value={rp.rpType}
                         data-testid={`input-rp-type-${rp.id}`}
                         onChange={(e) => updateReferencePermit(rp.id, { rpType: e.target.value })}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="w-[150px]">
                       <Input
                         type="date"
                         value={rp.date}
@@ -180,6 +180,14 @@ export function StepTravel() {
             </Table>
           </div>
         )}
+
+        <div className="flex items-start gap-2 rounded-md border border-teal-800/20 bg-surface p-3">
+          <Info className="h-4 w-4 text-teal-800 mt-0.5 shrink-0" />
+          <p className="text-xs text-teal-900" data-testid="text-reference-note-tooltip">
+            {t("travel.referenceNoteTooltip")}
+          </p>
+        </div>
+
         <Button
           type="button"
           variant="outline"
@@ -187,7 +195,7 @@ export function StepTravel() {
           data-testid="button-add-reference-permit"
         >
           <Plus className="h-4 w-4" />
-          {t("travel.addResidencePermitDate")}
+          {t("travel.addReferenceDate")}
         </Button>
       </SectionCard>
     </div>

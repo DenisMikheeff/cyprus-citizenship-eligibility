@@ -68,6 +68,15 @@ export function StepExport() {
 
       <SectionCard title={t("export.editableNote")}>
         <div className="flex flex-col gap-1.5">
+          <Label htmlFor="customNoteHeader">{t("export.customNoteHeaderLabel")}</Label>
+          <Input
+            id="customNoteHeader"
+            data-testid="input-custom-note-header"
+            value={state.exportCustomNoteHeader}
+            onChange={(e) => update("exportCustomNoteHeader", e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
           <Label htmlFor="customNote">{t("export.customNoteLabel")}</Label>
           <Textarea
             id="customNote"
@@ -75,15 +84,6 @@ export function StepExport() {
             value={state.exportCustomNote}
             onChange={(e) => update("exportCustomNote", e.target.value)}
             rows={3}
-          />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="footerText">{t("export.footerLabel")}</Label>
-          <Input
-            id="footerText"
-            data-testid="input-footer-text"
-            value={state.exportFooterText}
-            onChange={(e) => update("exportFooterText", e.target.value)}
           />
         </div>
       </SectionCard>

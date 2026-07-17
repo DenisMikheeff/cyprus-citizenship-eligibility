@@ -51,7 +51,8 @@ export function computeCumulativePresence(
   bcsYearSettings: BcsYearSetting[],
   route: Route,
   bcsAnchorDate?: Date,
-  rollingWindowYears: number = ROLLING_WINDOW_YEARS
+  rollingWindowYears: number = ROLLING_WINDOW_YEARS,
+  computeThresholdDate: boolean = true
 ): CumulativeResult {
   const windowEnd = toDate(windowEndISO);
   const rollingWindowStartExclusive = subYears(windowEnd, rollingWindowYears);
@@ -93,14 +94,16 @@ export function computeCumulativePresence(
   const actualDays = presentDays + forgivenDays;
   const requiredDays = requiredCumulativeDays(requiredYears, windowEndISO);
 
-  const thresholdReachedDate = findCumulativeThresholdDate(
-    requiredDays,
-    absenceIntervals,
-    effectiveStart,
-    bcsYearSettings,
-    route,
-    bcsAnchorDate
-  );
+  const thresholdReachedDate = computeThresholdDate
+    ? findCumulativeThresholdDate(
+        requiredDays,
+        absenceIntervals,
+        effectiveStart,
+        bcsYearSettings,
+        route,
+        bcsAnchorDate
+      )
+    : null;
 
   return {
     requiredDays,
@@ -152,17 +155,6 @@ export function findCumulativeThresholdDate(
   }
 
   const horizon = addDays(countStartDate, MAX_FORWARD_SCAN_DAYS);
-  const totalAbsentByYear = new Map<number, number>();
-  {
-    let cursor = countStartDate;
-    while (!isAfter(cursor, horizon)) {
-      if (!isPresentOn(cursor, absenceIntervals)) {
-        const y = getBcsBucket(cursor, bcsAnchorDate);
-        totalAbsentByYear.set(y, (totalAbsentByYear.get(y) ?? 0) + 1);
-      }
-      cursor = addDays(cursor, 1);
-    }
-  }
 
   const forgivenUsedByYear = new Map<number, number>();
   let counted = 0;
@@ -174,7 +166,7 @@ export function findCumulativeThresholdDate(
     } else {
       const y = getBcsBucket(cursor, bcsAnchorDate);
       const yearHasConcession = concessionByYear.get(y) === true;
-      const yearCap = Math.min(totalAbsentByYear.get(y) ?? 0, BCS_CONCESSION_CAP_DAYS);
+      const yearCap = BCS_CONCESSION_CAP_DAYS;
       const usedSoFar = forgivenUsedByYear.get(y) ?? 0;
       if (yearHasConcession && usedSoFar < yearCap) {
         forgivenUsedByYear.set(y, usedSoFar + 1);

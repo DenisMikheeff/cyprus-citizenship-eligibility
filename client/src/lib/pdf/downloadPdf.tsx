@@ -43,6 +43,7 @@ export async function generateCitizenshipPdf(lang: "en" | "gr", ctx: PdfGenerati
       result={ctx.result}
       sections={ctx.sections}
       customNote={ctx.state.exportCustomNote}
+      customNoteHeader={ctx.state.exportCustomNoteHeader}
       locale={localeCode}
     />
   );

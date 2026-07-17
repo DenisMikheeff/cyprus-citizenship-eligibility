@@ -27,7 +27,10 @@ export function findNearestEligibleDate(
   let cursor = toDate(searchFromISO);
   for (let i = 0; i <= maxDaysToSearch; i++) {
     const candidateISO = toISO(cursor);
-    const result = evaluateEligibility({ ...input, applicationDate: candidateISO });
+    const result = evaluateEligibility(
+      { ...input, applicationDate: candidateISO },
+      { skipThresholdDate: true }
+    );
     if (result.eligible) {
       return { found: true, date: candidateISO, result, daysSearched: i };
     }

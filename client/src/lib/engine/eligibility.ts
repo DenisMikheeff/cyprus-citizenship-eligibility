@@ -14,7 +14,10 @@ export function getCountStartDate(arcDateISO: string, includeArcDate: boolean): 
   return includeArcDate ? arcDate : addDays(arcDate, 1);
 }
 
-export function evaluateEligibility(input: EngineInput): EligibilityResult {
+export function evaluateEligibility(
+  input: EngineInput,
+  opts?: { skipThresholdDate?: boolean }
+): EligibilityResult {
   const countStartDate = getCountStartDate(input.arcDate, input.includeArcDate);
   const boundary = toDate(input.applicationDate);
   const absenceIntervals = buildAbsenceIntervals(input.events, boundary);
@@ -109,7 +112,9 @@ export function evaluateEligibility(input: EngineInput): EligibilityResult {
     countStartDate,
     input.bcsYearSettings,
     input.route,
-    input.bcsAnchorDate ? toDate(input.bcsAnchorDate) : undefined
+    input.bcsAnchorDate ? toDate(input.bcsAnchorDate) : undefined,
+    undefined,
+    !opts?.skipThresholdDate
   );
 
   const eligible = cumulative.met;

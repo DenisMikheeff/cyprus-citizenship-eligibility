@@ -134,7 +134,6 @@ interface PdfLabels {
   tripsHeading: string;
   tripsCols: [string, string, string, string];
   tripsTotalLabel: string;
-  footer: string;
   dash: string;
   eligibleLabel: string;
   notEligibleLabel: string;
@@ -151,7 +150,7 @@ interface PdfLabels {
   referenceDatesNote: string;
   firstReceiptRowLabel: string;
   firstBcsReceiptRowLabel: string;
-  residencePermitRowLabel: (type: string) => string;
+  referenceDateFallbackLabel: string;
   resultLabel: string;
   thresholdReachedLabel: string;
   marginLabel: string;
@@ -187,7 +186,6 @@ export function buildPdfLabels(lang: "en" | "gr", t: (k: string, opts?: Record<s
     tripsHeading: t("trips.title"),
     tripsCols: [t("trips.departure"), t("trips.return"), t("trips.daysAbsent"), t("trips.tripTo")],
     tripsTotalLabel: t("export.pdf.total"),
-    footer: t("export.footerLabel"),
     dash: "—",
     eligibleLabel: t("eligibility.eligible"),
     notEligibleLabel: t("eligibility.notEligible"),
@@ -203,7 +201,7 @@ export function buildPdfLabels(lang: "en" | "gr", t: (k: string, opts?: Record<s
     referenceDatesNote: t("export.pdf.referenceDatesNote"),
     firstReceiptRowLabel: t("export.pdf.firstReceiptRowLabel"),
     firstBcsReceiptRowLabel: t("export.pdf.firstBcsReceiptRowLabel"),
-    residencePermitRowLabel: (type) => t("export.pdf.residencePermitRowLabel", { type }),
+    referenceDateFallbackLabel: t("export.pdf.referenceDateFallbackLabel"),
     resultLabel: t("export.pdf.resultLabel"),
     thresholdReachedLabel: t("export.pdf.thresholdReachedLabel"),
     marginLabel: t("export.pdf.marginLabel"),
@@ -237,6 +235,7 @@ export interface CitizenshipPdfProps {
     education: boolean;
   };
   customNote?: string;
+  customNoteHeader?: string;
   locale: string;
 }
 
@@ -247,7 +246,7 @@ interface EventRow {
   highlight?: "milestone" | "appdate";
 }
 
-export function CitizenshipPdf({ lang, labels, state, result, sections, customNote, locale }: CitizenshipPdfProps) {
+export function CitizenshipPdf({ lang, labels, state, result, sections, customNote, customNoteHeader, locale }: CitizenshipPdfProps) {
   const s = styles(lang);
   const sortedEvents = [...state.events].sort((a, b) => a.date.localeCompare(b.date));
 
@@ -316,13 +315,12 @@ export function CitizenshipPdf({ lang, labels, state, result, sections, customNo
   }
   for (const rp of state.referencePermits) {
     if (!rp.date) continue;
-    referenceRows.push({ label: labels.residencePermitRowLabel(rp.rpType || "—"), date: rp.date });
+    referenceRows.push({ label: rp.rpType?.trim() || labels.referenceDateFallbackLabel, date: rp.date });
   }
 
   const trips = buildTrips(sortedEvents, result, state.tripDestinations);
 
-  const defaultFooter = `${labels.title.split("\n")[0]} — ${state.personal.fullName || labels.dash} — ${formLabel}`;
-  const footerText = state.exportFooterText?.trim() ? state.exportFooterText : defaultFooter;
+  const footerText = `${labels.title.split("\n")[0]} — ${state.personal.fullName || labels.dash} — ${formLabel}`;
 
   return (
     <Document title={labels.title}>
@@ -562,7 +560,7 @@ export function CitizenshipPdf({ lang, labels, state, result, sections, customNo
 
         {customNote && (
           <View>
-            <Text style={s.h2}>{" "}</Text>
+            {customNoteHeader?.trim() && <Text style={s.h2}>{customNoteHeader}</Text>}
             <Text style={{ fontFamily: "Inter", fontSize: 9.4, color: TEXT }}>{customNote}</Text>
           </View>
         )}

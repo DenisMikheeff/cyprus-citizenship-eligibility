@@ -75,7 +75,7 @@ export interface AppState {
 
   exportSections: ExportSectionToggles;
   exportCustomNote: string;
-  exportFooterText: string;
+  exportCustomNoteHeader: string;
 }
 
 export const DEFAULT_APP_STATE: AppState = {
@@ -116,5 +116,5 @@ export const DEFAULT_APP_STATE: AppState = {
     education: true,
   },
   exportCustomNote: "",
-  exportFooterText: "",
+  exportCustomNoteHeader: "",
 };

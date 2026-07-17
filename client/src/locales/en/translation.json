@@ -4,7 +4,7 @@
     "subtitle": "Estimate your naturalization eligibility and prepare supporting records",
     "languageLabel": "Interface language",
     "disclaimer": "This tool provides an informal estimate only. It is not legal advice. Always verify results with a licensed Cyprus immigration lawyer before relying on any date or figure shown here.",
-    "visaGapWarning": "This calculator was not designed for cases involving “visa gaps” — illegal periods, or periods without a valid visa, residence permit, or visa-free passport — even if someone from the migration authorities told you it wasn't a problem (e.g. during the COVID-19 pandemic). If this applies to you, we recommend seeking legal advice instead of relying on this or any online calculator to assess your eligibility."
+    "visaGapWarning": "It also was not designed for cases involving “visa gaps” — illegal periods, or periods without a valid visa, residence permit, or visa-free passport — even if migration authorities said it wasn't a problem (e.g. during COVID-19). If this applies to you, seek legal advice instead of relying on this or any online calculator."
   },
   "nav": {
     "back": "Back",
@@ -90,17 +90,18 @@
     "noEvents": "No travel events logged yet.",
     "presetTitle": "Reference-only dates",
     "presetDescription": "These optional dates are shown for your own reference in the exported record. They are never used in the eligibility calculation.",
-    "addResidencePermitDate": "Add “Residence permit printed” reference date",
-    "rpType": "Residence permit type",
-    "rpTypePlaceholder": "E.g. 'Change of Residence Permit type from VIS to BCS'",
-    "rpDate": "Printing date",
+    "addReferenceDate": "Add reference date",
+    "referenceNote": "Note",
+    "referenceNotePlaceholder": "e.g. Permit type change",
+    "referenceDate": "Date",
+    "referenceNoteTooltip": "You can use this table for any other reference-only date — for example when a residence permit was printed, or when your residence status changed.",
     "orderWarning": "Events must alternate departure / arrival in date order for the calculation to be accurate.",
     "importedFromEngine": "Used directly in the eligibility calculation."
   },
   "trips": {
     "title": "Trips after the cumulative threshold",
     "description": "Once your cumulative years requirement is met, every trip taken afterward is shown here automatically — it mirrors the “Trips after threshold” table in the exported record.",
-    "noThresholdYet": "The cumulative threshold has not been reached yet with your current data. Trips are still shown below as they are logged in your travel log.",
+    "noThresholdYet": "The cumulative threshold has not been reached yet with your current data. Trips will be shown here once it is.",
     "departure": "Departure",
     "return": "Return",
     "daysAbsent": "Days absent",
@@ -114,8 +115,6 @@
     "cancelManualTrip": "Cancel"
   },
   "toggles": {
-    "title": "Toggles",
-    "arcToggleLabel": "Include ARC issuing date as a day of presence",
     "bcsTitle": "BCS concession by year",
     "bcsDescription": "Only years marked as “held BCS status” can receive the concession (fast-track route only). When ON, up to 90 absence days in that calendar year are forgiven for the cumulative tally.",
     "bcsYearLabel": "Year {{year}}",
@@ -302,8 +301,8 @@
     "floatingDownloadLabel": "Download",
     "floatingDownloadTooltip": "Every field in this app is optional — you can generate a PDF record at any point, with as little or as much data as you've entered so far.",
     "previewHeading": "Notes included in export",
+    "customNoteHeaderLabel": "Custom note section header (optional)",
     "customNoteLabel": "Add a custom note (optional)",
-    "footerLabel": "Footer text",
     "pdf": {
       "title": "Detailed Record of Arrivals and Departures\nto and from the Republic of Cyprus",
       "subtitle": "Supporting document for the Cypriot citizenship by naturalization application",
@@ -322,10 +321,10 @@
       "applicationDateEvent": "Application date ({{form}} submission)",
       "thresholdReachedEvent": "{{years}}-year ({{days}}-day) physical presence threshold reached",
       "referenceDatesHeading": "Reference dates (for information only, do not affect the calculation)",
-      "referenceDatesNote": "These dates concern the applicant's residence-permit administrative history and are provided for the officer's convenience only; the calculation of days is based exclusively on the applicant's physical presence in Cyprus as evidenced by passport stamps.",
+      "referenceDatesNote": "These dates are provided for the officer's convenience only and do not affect the calculation, which is based exclusively on the applicant's physical presence in Cyprus as evidenced by passport stamps.",
       "firstReceiptRowLabel": "First receipt issued",
       "firstBcsReceiptRowLabel": "First BCS receipt issued",
-      "residencePermitRowLabel": "{{type}} Residence Permit printed",
+      "referenceDateFallbackLabel": "Reference date",
       "resultLabel": "Result",
       "thresholdReachedLabel": "Cumulative threshold reached",
       "marginLabel": "Margin (days)",

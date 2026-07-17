@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useAppState, deriveCandidateYears } from "@/lib/state/AppStateContext";
 import { SectionCard } from "@/components/wizard/Field";
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { EligibilityHint } from "@/components/wizard/EligibilityHint";
 import {
@@ -31,7 +30,7 @@ export function StepToggles() {
 
   const result = useMemo(() => {
     try {
-      return evaluateEligibility(engineInput);
+      return evaluateEligibility(engineInput, { skipThresholdDate: true });
     } catch {
       return null;
     }
@@ -89,79 +88,61 @@ export function StepToggles() {
 
   return (
     <div className="flex flex-col gap-6">
-      <SectionCard title={t("toggles.title")} description={t("toggles.description")}>
-        <div className="flex items-center gap-3 rounded-md border border-card-border p-3">
-          <Switch
-            id="toggleArc"
-            checked={state.arc.includeArcDate}
-            onCheckedChange={(v) => update("arc", { ...state.arc, includeArcDate: v })}
-            data-testid="switch-toggle-arc-date"
-          />
-          <Label htmlFor="toggleArc" className="cursor-pointer">
-            {t("toggles.arcToggleLabel")}
-          </Label>
-        </div>
-
-        {state.route === "fast-track" && (
-          <div className="pt-2 border-t border-border flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium">{t("toggles.bcsTitle")}</p>
-                <p className="text-xs text-muted-foreground">{t("toggles.bcsDescription")}</p>
-              </div>
-              <Button type="button" variant="outline" size="sm" onClick={ensureYearSettings} data-testid="button-populate-bcs-years">
-                {t("toggles.populateYears")}
-              </Button>
-            </div>
-            {state.bcsYearSettings.length > 0 && (
-              <div className="flex flex-col gap-2">
-                {state.bcsYearSettings.map((setting) => (
-                  <div
-                    key={setting.year}
-                    className="flex flex-wrap items-center gap-4 rounded-md border border-card-border p-2.5"
-                    data-testid={`row-bcs-year-${setting.year}`}
-                  >
-                    <span className="text-sm font-medium min-w-[9rem]">
-                      {bcsBucketLabel(setting.year)}
-                    </span>
-                    <label className="flex items-center gap-2 text-xs">
-                      <Switch
-                        checked={setting.heldBcsStatus}
-                        data-testid={`switch-bcs-held-${setting.year}`}
-                        onCheckedChange={(v) =>
-                          update(
-                            "bcsYearSettings",
-                            state.bcsYearSettings.map((s) =>
-                              s.year === setting.year ? { ...s, heldBcsStatus: v } : s
-                            )
-                          )
-                        }
-                      />
-                      {t("toggles.heldBcsStatus")}
-                    </label>
-                    <label className="flex items-center gap-2 text-xs">
-                      <Switch
-                        checked={setting.concessionOn}
-                        disabled={!setting.heldBcsStatus}
-                        data-testid={`switch-bcs-concession-${setting.year}`}
-                        onCheckedChange={(v) =>
-                          update(
-                            "bcsYearSettings",
-                            state.bcsYearSettings.map((s) =>
-                              s.year === setting.year ? { ...s, concessionOn: v } : s
-                            )
-                          )
-                        }
-                      />
-                      {t("toggles.concessionOn")}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            )}
+      {state.route === "fast-track" && (
+        <SectionCard title={t("toggles.bcsTitle")} description={t("toggles.bcsDescription")}>
+          <div className="flex items-center justify-end">
+            <Button type="button" variant="outline" size="sm" onClick={ensureYearSettings} data-testid="button-populate-bcs-years">
+              {t("toggles.populateYears")}
+            </Button>
           </div>
-        )}
-      </SectionCard>
+          {state.bcsYearSettings.length > 0 && (
+            <div className="flex flex-col gap-2">
+              {state.bcsYearSettings.map((setting) => (
+                <div
+                  key={setting.year}
+                  className="flex flex-wrap items-center gap-4 rounded-md border border-card-border p-2.5"
+                  data-testid={`row-bcs-year-${setting.year}`}
+                >
+                  <span className="text-sm font-medium min-w-[9rem]">
+                    {bcsBucketLabel(setting.year)}
+                  </span>
+                  <label className="flex items-center gap-2 text-xs">
+                    <Switch
+                      checked={setting.heldBcsStatus}
+                      data-testid={`switch-bcs-held-${setting.year}`}
+                      onCheckedChange={(v) =>
+                        update(
+                          "bcsYearSettings",
+                          state.bcsYearSettings.map((s) =>
+                            s.year === setting.year ? { ...s, heldBcsStatus: v } : s
+                          )
+                        )
+                      }
+                    />
+                    {t("toggles.heldBcsStatus")}
+                  </label>
+                  <label className="flex items-center gap-2 text-xs">
+                    <Switch
+                      checked={setting.concessionOn}
+                      disabled={!setting.heldBcsStatus}
+                      data-testid={`switch-bcs-concession-${setting.year}`}
+                      onCheckedChange={(v) =>
+                        update(
+                          "bcsYearSettings",
+                          state.bcsYearSettings.map((s) =>
+                            s.year === setting.year ? { ...s, concessionOn: v } : s
+                          )
+                        )
+                      }
+                    />
+                    {t("toggles.concessionOn")}
+                  </label>
+                </div>
+              ))}
+            </div>
+          )}
+        </SectionCard>
+      )}
 
       <SectionCard title={t("eligibility.title", "Live eligibility")}>
         <EligibilityHint result={result} />
